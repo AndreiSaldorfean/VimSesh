@@ -1,0 +1,5 @@
+# i have some files that i use to quickly test stuff inside the repo
+*.cpp
+*.c
+*.md
+!README.md
