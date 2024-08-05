@@ -121,6 +121,3 @@ vim.keymap.set('n', '<C-p>', ':Telescope find_files<cr>')
 vim.keymap.set({'n','i','v'}, '<C-r>', '<ESC>:DiffviewOpen<CR>')
 vim.keymap.set({'n','i','v'}, '<C-q>', '<ESC>:DiffviewClose<CR>')
 vim.keymap.set({'n','i','v'}, '<C-q>', '<ESC>:DiffviewClose<CR>')
-
-vim.cmd [[let &shell = '"C:\Program Files\Git\bin\bash.exe']]
-vim.cmd [[let &shellcmdflag = '-s']]
