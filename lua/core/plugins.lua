@@ -19,6 +19,10 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
+    -- Vim fugitive, used for seeing files and folders ignored by gitignore
+    {
+      'tpope/vim-fugitive'
+    },
     -- Tree-sitter for syntax highlighting and parsing
     {
       "nvim-treesitter/nvim-treesitter",

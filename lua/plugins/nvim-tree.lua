@@ -1,25 +1,33 @@
-require("nvim-tree").setup({
-    sort = {
-      sorter = "case_sensitive",
-    },
-    view = {
-      width = 30,
-    },
-    renderer = {
-      group_empty = true,
-    },
-    filters = {
-      dotfiles = false,
-    },
+require('nvim-tree').setup {
+    -- Enable git integration
     git = {
-      enable = true
+        enable = true,
+        ignore = true,
     },
-    
-  })
+    -- Custom renderer for highlighting git ignored files
+    renderer = {
+        highlight_git = true,
+        highlight_opened_files = "all",
+        special_files = {},
+        icons = {
+            glyphs = {
+                default = '',
+                symlink = '',
+                git = {
+                    unstaged = "✗",
+                    staged = "✓",
+                    unmerged = "",
+                    renamed = "➜",
+                    untracked = "★",
+                    deleted = "",
+                    ignored = ""
+                },
+            },
+            show = {
+              git = true
+            }
+        },
+    },
+}
 require("nvim-tree.api").tree.open()
--- Highlight git ignored files in gray
-vim.cmd [[
-  highlight NvimTreeGitIgnored guifg=#6C6C6C
-]]
-
-vim.api.nvim_set_hl(0, "NvimTreeGitIgnored", { fg = "#6C6C6C" })
+require("nvim-tree.api").tree.toggle_gitignore_filter()
