@@ -19,7 +19,19 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
-    -- Vim fugitive, used for seeing files and folders ignored by gitignore
+    -- Minimap
+    {
+       'gorbit99/codewindow.nvim',
+        config = function()
+          local codewindow = require('codewindow')
+          codewindow.setup({
+            minimap_width = 10
+          })
+          codewindow.open_minimap()
+          codewindow.apply_default_keybinds()
+        end,
+     },
+       -- Vim fugitive, used for seeing files and folders ignored by gitignore
     {
       'tpope/vim-fugitive'
     },
