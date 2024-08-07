@@ -112,7 +112,9 @@ vim.keymap.set('v', '<C-_>', ':Commentary<CR>')
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 
 -- Terminal
-vim.keymap.set('n', '<C-f>', ':ToggleTerm size=10 direction=horizontal<cr>')
+vim.keymap.set('i', '<C-f>', '<ESC>:ToggleTerm size=10 direction=horizontal<cr>a',{noremap = true, silent = true})
+vim.keymap.set('n', '<C-f>', ':ToggleTerm size=10 direction=horizontal<cr>a',{noremap = true, silent = true})
+vim.keymap.set('t', '<C-f>', '<C-\\><C-n>:ToggleTerm size=10 direction=horizontal<cr>',{noremap = true, silent = true})
 
 -- Find file like Vscode
 vim.keymap.set('n', '<C-p>', ':Telescope find_files<cr>')
