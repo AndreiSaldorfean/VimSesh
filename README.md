@@ -17,7 +17,7 @@ I hope this can be usefull for somebody that want to quickly jump into Neovim, c
 * **LLVM(clang)**; *Windows users only* - this is used for tree-sitter, for Windows users. Basically what this does, it allows you to download
                 language packages for tree-sitter, for syntax highlighting. You need to add clang to Environment Variables.
                 * **Terminal** - set your custom terminal emulator you want to use inside Neovim. I use Git Bash so in the file ```lua/core/options.lua```
-  there is ```bash.exe``` set as the ```shell````
+  there is ```bash.exe``` set as the ````shell````
 # Key binds
 
 To be added. This is still in progress, but I configured a few basic stuff.
