@@ -53,9 +53,9 @@ vim.keymap.set('v', '<C-l>', '$j')
 vim.keymap.set('n', '<C-l>', '0vj')
 
 -- Comment
-vim.keymap.set('n', '<C-_>', ':Commentary<CR>')
-vim.keymap.set('i', '<C-_>', '<ESC>:Commentary<CR>a')
-vim.keymap.set('v', '<C-_>', ':Commentary<CR>')
+vim.keymap.set('n', '<C-_>', ':Commentary<CR>',{noremap = true, silent = true})
+vim.keymap.set('i', '<C-_>', '<ESC>:Commentary<CR>a',{noremap = true, silent = true})
+vim.keymap.set('v', '<C-_>', ':Commentary<CR>',{noremap = true, silent = true})
 
 -- ESCAPE
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
@@ -65,10 +65,20 @@ vim.keymap.set('i', '<C-f>', '<ESC>:ToggleTerm size=10 direction=horizontal<cr>a
 vim.keymap.set('n', '<C-f>', ':ToggleTerm size=10 direction=horizontal<cr>a',{noremap = true, silent = true})
 vim.keymap.set('t', '<C-f>', '<C-\\><C-n>:ToggleTerm size=10 direction=horizontal<cr>',{noremap = true, silent = true})
 
--- Find file like Vscode
-vim.keymap.set('n', '<C-p>', ':Telescope find_files<cr>')
-
 --Open diff view 
-vim.keymap.set({'n','i','v'}, '<C-r>', '<ESC>:DiffviewOpen<CR>')
-vim.keymap.set({'n','i','v'}, '<C-q>', '<ESC>:DiffviewClose<CR>')
-vim.keymap.set({'n','i','v'}, '<C-q>', '<ESC>:DiffviewClose<CR>')
+vim.keymap.set({'n','i','v'}, '<C-r>', '<ESC>:DiffviewOpen<CR>',{noremap = true, silent = true})
+vim.keymap.set({'n','i','v'}, '<C-q>', '<ESC>:DiffviewClose<CR>',{noremap = true, silent = true})
+vim.keymap.set({'n','i','v'}, '<C-q>', '<ESC>:DiffviewClose<CR>',{noremap = true, silent = true})
+
+-- Remove highlight
+vim.keymap.set({'n','i','v'}, '<leader>h', '<ESC>:nohl<CR>',{noremap = true, silent = true})
+
+--Telescope
+vim.keymap.set({'n','i','v'}, '<leader>f', '<ESC>:Telescope grep_string<CR>',{noremap = true, silent = true})
+vim.keymap.set('n', '<C-p>', ':Telescope find_files<cr>',{noremap = true, silent = true})
+
+--Git signs
+vim.keymap.set({'n','i','v'}, '<leader>g', '<ESC>:Gitsigns blame_line<CR>',{noremap = true, silent = true})
+
+-- NivmTree
+vim.keymap.set({'n','i','v'}, '<leader>e', '<ESC>:NvimTreeToggle<CR>',{noremap = true, silent = true})
