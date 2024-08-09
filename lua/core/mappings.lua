@@ -47,10 +47,10 @@ vim.keymap.set('t', '<S-Up>', '<Esc>vk')
 vim.keymap.set('t', '<S-Down>', '<Esc>vj')
 
 -- Select text like VSCode does
-vim.keymap.del('n', '<C-L>')
-vim.keymap.set('i', '<C-l>', '<ESC>0vj')
-vim.keymap.set('v', '<C-l>', '$j')
-vim.keymap.set('n', '<C-l>', '0vj')
+vim.keymap.del('n', '<C-L>',{noremap = true, silent = true})
+vim.keymap.set('i', '<C-l>', '<ESC>0vj',{noremap = true, silent = true})
+vim.keymap.set('v', '<C-l>', '$j',{noremap = true, silent = true})
+vim.keymap.set('n', '<C-l>', '0vj',{noremap = true, silent = true})
 
 -- Comment
 vim.keymap.set('n', '<C-_>', ':Commentary<CR>',{noremap = true, silent = true})

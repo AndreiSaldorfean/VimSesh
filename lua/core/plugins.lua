@@ -25,7 +25,7 @@ require("lazy").setup({
         config = function()
           local codewindow = require('codewindow')
           codewindow.setup({
-            minimap_width = 10
+            minimap_width = 3
           })
           codewindow.open_minimap()
           codewindow.apply_default_keybinds()
