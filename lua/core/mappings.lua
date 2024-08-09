@@ -79,6 +79,8 @@ vim.keymap.set('n', '<C-p>', ':Telescope find_files<cr>',{noremap = true, silent
 
 --Git signs
 vim.keymap.set({'n','i','v'}, '<leader>g', '<ESC>:Gitsigns blame_line<CR>',{noremap = true, silent = true})
+vim.keymap.set({'n','i','v'}, '<C-Down>', '<ESC>:Gitsigns next_hunk<CR>',{noremap = true, silent = true})
+vim.keymap.set({'n','i','v'}, '<C-Up>', '<ESC>:Gitsigns prev_hunk<CR>',{noremap = true, silent = true})
 
 -- NivmTree
 vim.keymap.set({'n','i','v'}, '<leader>e', '<ESC>:NvimTreeToggle<CR>',{noremap = true, silent = true})

@@ -45,7 +45,7 @@ require("lazy").setup({
           prefer_git = false,
           compilers = {"clang"},
           auto_install = false,
-          ensure_installed = { "c", "python", "cpp" }, -- Add other parsers as needed
+          ensure_installed = { "c", "python", "cpp", "lua","markdown","markdown_inline","html"}, -- Add other parsers as needed
           highlight = {
             enable = true,  -- Enable Tree-sitter based highlighting
             additional_vim_regex_highlighting = false,  -- Disable Vim regex based highlighting
@@ -120,7 +120,17 @@ require("lazy").setup({
     },
     -- COLORSCHEME
     {
-        "sainnhe/gruvbox-material"
+        "catppuccin/nvim",
+        "rose-pine/neovim", name = "rose-pine",
+        'kvrohit/rasmus.nvim', --  No 2
+        "scottmckendry/cyberdream.nvim", -- No 1
+        'ribru17/bamboo.nvim', -- Nice
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require('rose-pine').load()
+            require('bamboo').load()
+        end,
     },
     -- BARBAR
     {
