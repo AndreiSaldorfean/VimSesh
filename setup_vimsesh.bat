@@ -1,8 +1,7 @@
 ::This script shall install the necessary files
 ::in order to setup the repo
 
-::Note: You may need to manually add the new variables to PATH do to some issues with setx command
-echo off
+@echo off
 echo "Please run this script in administrator before proceeding further..."
 
 ::Set 1:Fetch the font
@@ -34,7 +33,7 @@ echo "Fetching main repo"
 
 C:
 cd %APPDATA_PATH%
-git clone https://github.com/AndreiSaldorfean/VimSesh.git
+git clone https://github.com/AndreiSaldorfean/VimSesh.git nvim
 
 echo "Finished installing the repo"
 
