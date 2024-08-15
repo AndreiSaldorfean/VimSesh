@@ -1,7 +1,8 @@
 ::This script shall install the necessary files
 ::in order to setup the repo
 
-@echo off
+::Note: You may need to manually add the new variables to PATH do to some issues with setx command
+echo off
 echo "Please run this script in administrator before proceeding further..."
 
 ::Set 1:Fetch the font
@@ -17,13 +18,28 @@ curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrai
 
 tar -xf  %FONT_DIR%\fonts.zip -C %FONT_DIR%
 
-copy  %FONT_DIR%\%FONT% %WINDIR%\Fonts
+move  %FONT_DIR%\%FONT% %WINDIR%\Fonts
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "FontName (TrueType)" /t REG_SZ /d %FONT% /f
 
 rmdir /s /q %FONT_DIR%
 echo "Finished installing font"
 
-::Step 2:Fetch Neovim and add it to PATH
+
+:: Step 2: Fetch the main repo to %APPDATA%\..\Local
+
+::It seems that the repo only works when placed in %APPDATA%\..\Local
+set APPDATA_PATH=%APPDATA%\..\Local
+
+echo "Fetching main repo"
+
+C:
+cd %APPDATA_PATH%
+git clone https://github.com/AndreiSaldorfean/VimSesh.git
+
+echo "Finished installing the repo"
+
+
+::Step 3:Fetch Neovim and add it to PATH
 ::Due to the fact that the repo works only in %APPDATA%\..\Local directory
 ::the rest of the files will be installed there
 
@@ -42,14 +58,14 @@ del %NVIM_FILE%.zip
 echo "Finished installing Neovim"
 
 setx NVIM_PATH %NVIM_DIR%
-set "newPath=%PATH%;%NVIM_PATH%"
-setx PATH "%newPath%"
+setx PATH "%PATH%;%NVIM_PATH%"
 
 ::It seems that only "" work for setx instead of ''
+
 echo "Finished adding Neovim to PATH variable"
 
 
-::Step 3:Fetch ripgrep and add it to PATH
+::Step 4:Fetch ripgrep and add it to PATH
 
 C:
 cd %APPDATA%\..\Local
@@ -70,11 +86,3 @@ setx RIPGREP_PATH %RIPGREP_DIR%
 setx PATH "%PATH%;%RIPGREP_PATH%"
 echo "Finished adding ripgrep to PATH variable"
 
-::Step 4:Fetch the repo
-
-C:
-cd %APPDATA%\..\Local
-
-echo "Fetching the repo from the web..."
-git clone https://github.com/AndreiSaldorfean/VimSesh.git
-echo "Finished installing the repo"
