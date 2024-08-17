@@ -17,7 +17,7 @@ end
 lsp_zero.extend_lspconfig({
   sign_text = true,
   lsp_attach = lsp_attach,
-  capabilities = require('cmp_nvim_lsp').default_capabilities()
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
 })
 
 -- to learn how to use mason.nvim
@@ -27,10 +27,12 @@ require('mason-lspconfig').setup({
   ensure_installed = {},
   handlers = {
     function(server_name)
-      require('lspconfig')[server_name].setup({})
+      require('lspconfig')[server_name].setup{}
     end,
   },
 })
+-- C/C++ LSP
+require('lspconfig').ccls.setup{}
 local cmp = require('cmp')
 
 cmp.setup({
@@ -45,10 +47,10 @@ cmp.setup({
           and not context.in_syntax_group("Comment")
       end
   end,
-  sources = {
+  sources = cmp.config.sources{
     {name = 'nvim_lsp'},
-    {name = 'git-signs'},
-    {name = 'buffer'}
+    {name = 'buffer'},
+    {name =  'path'}
   },
   snippet = {
     expand = function(args)

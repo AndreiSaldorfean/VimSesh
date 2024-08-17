@@ -19,19 +19,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
-    -- Minimap
-    {
-       'gorbit99/codewindow.nvim',
-        config = function()
-          local codewindow = require('codewindow')
-          codewindow.setup({
-            minimap_width = 3
-          })
-          codewindow.open_minimap()
-          codewindow.apply_default_keybinds()
-        end,
-     },
-       -- Vim fugitive, used for seeing files and folders ignored by gitignore
+    -- Vim fugitive, used for seeing files and folders ignored by gitignore
     {
       'tpope/vim-fugitive'
     },
@@ -57,13 +45,8 @@ require("lazy").setup({
     {
         "OXY2DEV/markview.nvim",
         lazy = false,      -- Recommended
-        -- ft = "markdown" -- If you decide to lazy-load anyway
 
         dependencies = {
-            -- You will not need this if you installed the
-            -- parsers manually
-            -- Or if the parsers are in your $RUNTIMEPATH
-            "nvim-treesitter/nvim-treesitter",
             "nvim-tree/nvim-web-devicons"
         }
     },
@@ -80,12 +63,6 @@ require("lazy").setup({
       'windwp/nvim-autopairs',
       event = "InsertEnter",
       config = true
-      -- use opts = {} for passing setup options
-      -- this is equalent to setup({}) function
-    },
-    -- Split screen
-    {
-      'mrjones2014/smart-splits.nvim'
     },
     --Comments
     {
@@ -103,16 +80,33 @@ require("lazy").setup({
         'neovim/nvim-lspconfig',
         'VonHeikemen/lsp-zero.nvim', branch = 'v4.x',
         'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/nvim-cmp'
+        'hrsh7th/nvim-cmp',
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path'
     },
-    -- NVIM-TREE
     {
-        "nvim-tree/nvim-tree.lua",
-        version = "*",
-        lazy = false,
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-        }
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v3.x",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+        "MunifTanjim/nui.nvim",
+        -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      },
+      config = function ()
+        require("neo-tree").setup({
+          filesystem = {
+              filtered_items={
+                hide_dotfiles = false,
+                hide_gitignored = false,
+              },
+              hide_by_name = {
+                  --"node_modules"
+              },
+              always_show = {".gitignore"}
+          }
+        })
+      end
     },
     -- STATUS BAR
     {

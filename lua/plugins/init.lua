@@ -1,7 +1,6 @@
 require("plugins.gitsigns")
 require("plugins.lsp")
 require("plugins.statusbar")
-require("plugins.nvim-tree")
 require("plugins.auto-pairs")
 require("plugins.markdown")
 require("plugins.telescope")
