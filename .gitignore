@@ -3,7 +3,5 @@
 *.c
 *.md
 !README.md
-lua/core/options.lua
 lazy-lock.json
-.clangd
 .ccls-cache
