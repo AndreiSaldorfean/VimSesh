@@ -1,15 +1,12 @@
 --- Comment
-vim.keymap.set('n', '<C-_>', ':Commentary<CR>',{noremap = true, silent = true})
-vim.keymap.set('i', '<C-_>', '<ESC>:Commentary<CR>a',{noremap = true, silent = true})
+vim.keymap.set({'n','i'}, '<C-_>', '<esc>:Commentary<CR>',{noremap = true, silent = true})
 vim.keymap.set('v', '<C-_>', ':Commentary<CR>',{noremap = true, silent = true})
 
 ---- ESCAPE
-vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
+vim.keymap.set('t', '<esc>', '<C-\\><C-n>',{noremap = true, silent = true})
 
 ---- Terminal
-vim.keymap.set('i', '<C-f>', '<ESC>:ToggleTerm size=10 direction=horizontal<cr>a',{noremap = true, silent = true})
-vim.keymap.set('n', '<C-f>', ':ToggleTerm size=10 direction=horizontal<cr>a',{noremap = true, silent = true})
-vim.keymap.set('t', '<C-f>', '<C-\\><C-n>:ToggleTerm size=10 direction=horizontal<cr>',{noremap = true, silent = true})
+vim.keymap.set({'n','t','i'}, '<C-f>', '<C-\\><C-n>:ToggleTerm size=10 direction=horizontal<cr>',{noremap = true, silent = true})
 
 ----Open diff view
 vim.keymap.set({'n','v'}, '<C-r>', '<ESC>:DiffviewOpen<CR>',{noremap = true, silent = true})

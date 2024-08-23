@@ -60,7 +60,7 @@ cmp.setup({
   },
   mapping = cmp.mapping.preset.insert({
       ['<C-e>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<esc>'] = cmp.mapping.abort(),
+      ['<C-\\><C-n><C-\\><C-n>'] = cmp.mapping.abort(),
       ['<TAB>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
