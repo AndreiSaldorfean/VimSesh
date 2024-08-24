@@ -28,3 +28,18 @@ vim.keymap.set({'n','v'}, '<leader>q', '<ESC>:Gitsigns preview_hunk<CR>',{norema
 
 --  NeoTree
 vim.keymap.set({'n','v'}, '<leader>e', '<ESC>:Neotree toggle<CR>',{noremap = true, silent = true})
+vim.keymap.set({'n','v'}, ';', '<ESC>:Neogit<CR>',{noremap = true, silent = true})
+
+vim.keymap.set('n', '<Tab>', '>>',{noremap = true, silent = true})
+vim.keymap.set('n', '<S-Tab>', '<<',{noremap = true, silent = true})
+
+-- Function to indent selected text
+local function indent_selection()
+  vim.cmd('normal! gv')
+  vim.cmd('normal! >')
+end
+
+-- Map <Tab> to indent and <S-Tab> to unindent in visual mode
+vim.api.nvim_set_keymap('v', '<Tab>', [[:lua indent_selection()<CR>gv]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<S-Tab>', [[:lua indent_selection()<CR><gv]], { noremap = true, silent = true })
+

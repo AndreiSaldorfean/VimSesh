@@ -19,6 +19,58 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
+    {
+      "mg979/vim-visual-multi"
+    },
+    {
+      "Pocco81/auto-save.nvim",
+      config = function()
+         require("auto-save").setup {
+          -- your config goes here
+          -- or just leave it empty :)
+         }
+      end,
+    },
+    {
+      'p00f/nvim-ts-rainbow',
+      config = function()
+
+	require('nvim-ts-rainbow').setup {
+	  -- configuration options
+	  -- for example, you can specify colors for brackets
+	  colors = {
+	     "#ff5ea0",  -- Red
+            "#ffbd5e",  -- Yellow
+            "#bd80ff",  -- Purple
+	  },
+	  -- additional options
+	}
+end
+    },
+    -- Dashboard
+    {
+      'goolord/alpha-nvim',
+      config = function ()
+          require'alpha'.setup(require'alpha.themes.dashboard'.config)
+      end
+      },
+    -- Used for linters
+    {
+      'jose-elias-alvarez/null-ls.nvim'
+    },
+    -- Improved git support
+    {
+        "NeogitOrg/neogit",
+      dependencies = {
+        "nvim-lua/plenary.nvim",         -- required
+        "sindrets/diffview.nvim",        -- optional - Diff integration
+
+        -- Only one of these is needed, not both.
+        "nvim-telescope/telescope.nvim", -- optional
+        "ibhagwan/fzf-lua",              -- optional
+      },
+      config = true
+    },
     -- Vim fugitive, used for seeing files and folders ignored by gitignore
     {
       'tpope/vim-fugitive'
@@ -38,7 +90,17 @@ require("lazy").setup({
             enable = true,  -- Enable Tree-sitter based highlighting
             additional_vim_regex_highlighting = false,  -- Disable Vim regex based highlighting
           },
-        }
+          -- rainbow = {
+          --  enable = true,
+          --   extended_mode = true,
+          --   max_file_lines = nil,
+          --   colors = {
+          --     "#ff5ea0",  -- Red
+          --     "#ffbd5e",  -- Yellow
+          --     "#bd80ff",  -- Purple
+          --   }
+          -- }
+         }
       end,
     },
     -- Markdown

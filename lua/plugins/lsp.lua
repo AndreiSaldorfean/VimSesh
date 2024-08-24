@@ -33,6 +33,26 @@ require('mason-lspconfig').setup({
 })
 -- C/C++ LSP
 require('lspconfig').ccls.setup{}
+local null_ls = require("null-ls")
+local b = null_ls.builtins
+
+null_ls.setup({
+    sources = {
+        -- Using cppcheck for MISRA-C compliance
+        b.diagnostics.cppcheck.with({
+            extra_args = {
+                "--enable=all",                      -- Enable all checks
+                "--inconclusive",                    -- Include inconclusive checks
+                "--std=c++11",                         -- Specify C standard
+                "--language=c++",                      -- Specify language
+                "--addon=misra",                     -- Enable MISRA addon
+                "--suppress=missingIncludeSystem"    -- Suppress missing include errors
+            },
+            filetypes = {"c","cpp"},
+        }),
+    },
+})
+
 local cmp = require('cmp')
 
 cmp.setup({

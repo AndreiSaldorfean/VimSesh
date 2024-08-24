@@ -6,3 +6,6 @@
 lazy-lock.json
 .clangd
 .ccls-cache
+.git
+.clang-format
+~

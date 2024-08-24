@@ -13,6 +13,8 @@ require("telescope").setup({
               "-g",
               "!**/.ccls-cache/*",
               "-g",
+              "!**/~/*",
+              "-g",
               "!**/node_modules/*",
               "-g", "!**/.repro/*", -- just to hide .repro rtp
             },
