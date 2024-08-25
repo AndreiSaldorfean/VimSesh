@@ -19,6 +19,76 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
+      {
+        "goolord/alpha-nvim",
+        config = function()
+            require'alpha'.setup(require'alpha.themes.dashboard'.config)
+        end,
+        -- enabled = lvim.builtin.alpha.active,
+        event = "VimEnter",
+      },
+      {
+          "lukas-reineke/indent-blankline.nvim",
+          main = "ibl",
+          ---@module "ibl"
+          ---@type ibl.config
+          opts = {},
+          config = function ()
+              require("ibl").setup{
+             }
+          end
+      },
+      {
+        "NeogitOrg/neogit",
+         dependencies = {
+          "nvim-lua/plenary.nvim",         -- required
+          "sindrets/diffview.nvim",        -- optional - Diff integration
+
+          -- Only one of these is needed, not both.
+          "nvim-telescope/telescope.nvim", -- optional
+          "ibhagwan/fzf-lua",              -- optional
+        },
+        config = true
+      },
+      -- Used for linters
+      {
+        'jose-elias-alvarez/null-ls.nvim'
+      },
+      {
+        "olimorris/persisted.nvim",
+        lazy = false, -- make sure the plugin is always loaded at startup
+        config = true
+      },
+      {
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- add any options here
+        },
+        dependencies = {
+          -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+          "MunifTanjim/nui.nvim",
+          -- OPTIONAL:
+          --   `nvim-notify` is only needed, if you want to use the notification view.
+          --   If not available, we use `mini` as the fallback
+          },
+        config = function ()
+          require("noice").setup {
+            notify = {
+              enabled = false
+            }
+          }
+        end
+      },
+    {
+      "Pocco81/auto-save.nvim",
+      config = function()
+         require("auto-save").setup {
+          -- your config goes here
+          -- or just leave it empty :)
+         }
+      end,
+    },
     -- Vim fugitive, used for seeing files and folders ignored by gitignore
     {
       'tpope/vim-fugitive'

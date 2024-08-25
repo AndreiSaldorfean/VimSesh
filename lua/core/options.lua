@@ -60,4 +60,3 @@ opt.splitbelow = true
 -- hide ~ on empty line
 opt.fillchars = { eob = " " }
 
-    
