@@ -32,7 +32,12 @@ require('mason-lspconfig').setup({
   },
 })
 -- C/C++ LSP
-require('lspconfig').ccls.setup{}
+local lspconfig = require('lspconfig')
+lspconfig.ccls.setup{
+   cmd = { "ccls" },
+   filetypes = { "c", "cpp", "objc", "objcpp" },
+   root_dir = lspconfig.util.root_pattern(".ccls", "compile_commands.json"),
+}
 local null_ls = require("null-ls")
 local b = null_ls.builtins
 
@@ -84,4 +89,19 @@ cmp.setup({
       ['<TAB>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
+  formatting = {
+    format = function(entry, vim_item)
+      -- fancy icons and a name of kind
+      vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
+      -- set a name for each source
+      vim_item.menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[LuaSnip]",
+        nvim_lua = "[Lua]",
+        latex_symbols = "[LaTeX]",
+      })[entry.source.name]
+      return vim_item
+    end,
+  },
 })

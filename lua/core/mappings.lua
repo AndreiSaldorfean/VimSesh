@@ -1,5 +1,5 @@
 
-vim.keymap.set({'n','i','v'}, 'x', '<C-\\><C-n>:qa!<CR>',{noremap = true, silent = true})
+vim.keymap.set({'n','v'}, 'x', '<C-\\><C-n>:qa!<CR>',{noremap = true, silent = true})
 
 --- Comment
 vim.keymap.set({'n','i'}, '<C-_>', '<esc>:Commentary<CR>',{noremap = true, silent = true})

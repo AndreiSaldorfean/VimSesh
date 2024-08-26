@@ -9,3 +9,6 @@ lazy-lock.json
 .git
 .clang-format
 ~
+.cache
+.ccls
+compile_commands.json

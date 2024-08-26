@@ -14,11 +14,43 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-
 require("lazy").setup({
+      {
+        "HiPhish/rainbow-delimiters.nvim",
+        config = function ()
+            -- This module contains a number of default definitions
+            local rainbow_delimiters = require 'rainbow-delimiters'
+
+            vim.g.rainbow_delimiters = {
+                strategy = {
+                    [''] = rainbow_delimiters.strategy['global'],
+                    vim = rainbow_delimiters.strategy['local'],
+                },
+                query = {
+                    [''] = 'rainbow-delimiters',
+                    lua = 'rainbow-blocks',
+                },
+                priority = {
+                    [''] = 110,
+                    lua = 210,
+                },
+                highlight = {
+                    'RainbowDelimiterRed',
+                    'RainbowDelimiterYellow',
+                    'RainbowDelimiterBlue',
+                    'RainbowDelimiterOrange',
+                    'RainbowDelimiterGreen',
+                    'RainbowDelimiterViolet',
+                    'RainbowDelimiterCyan',
+                },
+            }
+        end
+      },
+      {
+        "onsails/lspkind.nvim"
+      },
       {
         "goolord/alpha-nvim",
         config = function()
@@ -84,8 +116,6 @@ require("lazy").setup({
       "Pocco81/auto-save.nvim",
       config = function()
          require("auto-save").setup {
-          -- your config goes here
-          -- or just leave it empty :)
          }
       end,
     },
@@ -108,17 +138,7 @@ require("lazy").setup({
             enable = true,  -- Enable Tree-sitter based highlighting
             additional_vim_regex_highlighting = false,  -- Disable Vim regex based highlighting
           },
-          -- rainbow = {
-          --  enable = true,
-          --   extended_mode = true,
-          --   max_file_lines = nil,
-          --   colors = {
-          --     "#ff5ea0",  -- Red
-          --     "#ffbd5e",  -- Yellow
-          --     "#bd80ff",  -- Purple
-          --   }
-          -- }
-         }
+        }
       end,
     },
     -- Markdown

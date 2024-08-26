@@ -21,3 +21,21 @@ I hope this can be usefull for somebody that want to quickly jump into Neovim, c
 # Key binds
 
 To be added. This is still in progress, but I configured a few basic stuff.
+
+# Notes
+
+You will need for c/c++ a .ccls and .compile_commands.json. In compile_commands.json you can have this as a template:
+``````
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-I/usr/lib/avr/include",
+      "main.cpp"
+    ],
+    "directory": "/home/rudy/.config/nvim/",
+    "file": "/home/rudy/.config/nvim/main.cpp"
+  }
+]
+``````
