@@ -33,11 +33,13 @@ require('mason-lspconfig').setup({
 })
 -- C/C++ LSP
 local lspconfig = require('lspconfig')
-lspconfig.ccls.setup{
-   cmd = { "ccls" },
-   filetypes = { "c", "cpp", "objc", "objcpp" },
-   root_dir = lspconfig.util.root_pattern(".ccls", "compile_commands.json"),
+lspconfig.clangd.setup{
+   cmd = {'clangd', '--background-index', '--clang-tidy', '--log=verbose'},
+  init_options = {
+    fallback_flags = { '-std=c++17' },
+  }
 }
+
 local null_ls = require("null-ls")
 local b = null_ls.builtins
 

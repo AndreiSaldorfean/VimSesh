@@ -1,6 +1,5 @@
 vim.cmd("let g:netrw_liststyle = 3")
 
-vim.o.directory = "~/.local/state/nvim/swap//"
 vim.diagnostic.config({
   virtual_text = {
     prefix = '■', -- Change this to match the icon in your screenshot
