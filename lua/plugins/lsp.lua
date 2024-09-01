@@ -43,22 +43,25 @@ lspconfig.clangd.setup{
 local null_ls = require("null-ls")
 local b = null_ls.builtins
 
-null_ls.setup({
-    sources = {
-        -- Using cppcheck for MISRA-C compliance
-        b.diagnostics.cppcheck.with({
-            extra_args = {
-                "--enable=all",                      -- Enable all checks
-                "--inconclusive",                    -- Include inconclusive checks
-                "--std=c++11",                         -- Specify C standard
-                "--language=c++",                      -- Specify language
-                "--addon=misra",                     -- Enable MISRA addon
-                "--suppress=missingIncludeSystem"    -- Suppress missing include errors
-            },
-            filetypes = {"c","cpp"},
-        }),
-    },
-})
+-- null_ls.setup({
+--     debug=true,
+--     temp_dir = "C:\\Users\\andre\\AppData\\Local\\Temp",
+--     -- autostart = true,
+--     sources = {
+--         -- Using cppcheck for MISRA-C compliance
+--         b.diagnostics.cppcheck.with({
+--             extra_args = {
+--                 -- "--enable=all",                      -- Enable all checks
+--                 -- "--inconclusive",                    -- Include inconclusive checks
+--                 "--std=c++17",                         -- Specify C standard
+--                 -- "--language=c++",                      -- Specify language
+--                 -- "--addon=misra",                     -- Enable MISRA addon
+--                 -- "--suppress=missingIncludeSystem"    -- Suppress missing include errors
+--             },
+--             -- filetypes = {"c","cpp"},
+--         }),
+--     },
+-- })
 
 local cmp = require('cmp')
 

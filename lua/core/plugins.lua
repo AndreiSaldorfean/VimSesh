@@ -18,6 +18,22 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
     {
+      'dense-analysis/ale',
+      config = function()
+        -- Enable ALE
+        vim.g.ale_enabled = 1
+
+        -- Use cppcheck for C and C++ files
+        vim.g.ale_linters = {
+          c = { 'cppcheck' },
+          cpp = { 'cppcheck' },
+        }
+
+        -- Optional: Set cppcheck options
+        vim.g.ale_cppcheck_options = '--enable=all'
+      end
+    },
+    {
       "HiPhish/rainbow-delimiters.nvim",
       config = function ()
           -- This module contains a number of default definitions
@@ -91,27 +107,6 @@ require("lazy").setup({
       lazy = false, -- make sure the plugin is always loaded at startup
       config = true
     },
-    {
-      "folke/noice.nvim",
-      event = "VeryLazy",
-      opts = {
-        -- add any options here
-      },
-      dependencies = {
-        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-        "MunifTanjim/nui.nvim",
-        -- OPTIONAL:
-        --   `nvim-notify` is only needed, if you want to use the notification view.
-        --   If not available, we use `mini` as the fallback
-        },
-      config = function ()
-        require("noice").setup {
-          notify = {
-            enabled = false
-          }
-        }
-      end
-    },
     -- Vim fugitive, used for seeing files and folders ignored by gitignore
     {
       'tpope/vim-fugitive'
@@ -126,7 +121,7 @@ require("lazy").setup({
           prefer_git = false,
           auto_install = false,
           compiler = "gcc",
-          ensure_installed = { "c", "python", "cpp", "lua","markdown","markdown_inline"}, -- Add other parsers as needed
+          ensure_installed = { "c", "python", "cpp", "lua","markdown","markdown_inline","html"}, -- Add other parsers as needed
           highlight = {
             enable = true,  -- Enable Tree-sitter based highlighting
             additional_vim_regex_highlighting = false,  -- Disable Vim regex based highlighting
@@ -189,14 +184,17 @@ require("lazy").setup({
       config = function ()
         require("neo-tree").setup({
           filesystem = {
-              filtered_items={
-                hide_dotfiles = false,
-                hide_gitignored = false,
-              },
-              hide_by_name = {
-                  --"node_modules"
-              },
-              always_show = {".gitignore"}
+            follow_current_file = true, -- Automatically select the file in the tree
+            hijack_netrw_behavior = "open_default", -- This ensures it hijacks netrw
+            use_libuv_file_watcher = true, -- This helps with automatically updating the tree
+            filtered_items={
+              hide_dotfiles = false,
+              hide_gitignored = false,
+            },
+            hide_by_name = {
+                --"node_modules"
+            },
+            always_show = {".gitignore"}
           }
         })
       end

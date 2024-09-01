@@ -6,3 +6,4 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 require('core.plugins')
 require('core.options')
 require('core.mappings')
+require('core.config')
