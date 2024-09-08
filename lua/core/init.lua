@@ -1,9 +1,4 @@
-vim.api.nvim_create_autocmd("VimLeavePre", {
-    callback = function()
-        vim.cmd("Neotree close")
-    end,
-})
+require('core.autocommands')
 require('core.plugins')
 require('core.options')
 require('core.mappings')
-require('core.config')

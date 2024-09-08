@@ -16,8 +16,7 @@ I hope this can be usefull for somebody that want to quickly jump into Neovim, c
 * **Neovim** > 0.10
 * **LLVM(clang)**; *Windows users only* - this is used for tree-sitter, for Windows users. Basically what this does, it allows you to download
                 language packages for tree-sitter, for syntax highlighting. You need to add clang to Environment Variables.
-                * **Terminal** - set your custom terminal emulator you want to use inside Neovim. I use Git Bash so in the file ```lua/core/options.lua```
-  there is ```bash.exe``` set as the ````shell````
+                **Terminal** - set your custom terminal emulator you want to use inside Neovim. I use Git Bash so in the file ```lua/core/options.lua``` there is ```bash.exe``` set as the ````shell````
 * **PowerShell**; *Windows users only* - For a nicer PowerShell experience i recommend to use newer PowerShell from [here](https://github.com/PowerShell/PowerShell?tab=readme-ov-file)
                                        - I also recommend to install completion options for git inside PowerShell with ```Import-Module posh-git``` and add this command to your ``$PROFILE``, then restart with ```. $PROFILE```:
 ````

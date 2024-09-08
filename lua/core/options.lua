@@ -2,7 +2,7 @@ vim.cmd("let g:netrw_liststyle = 3")
 
 vim.diagnostic.config({
   virtual_text = {
-    prefix = '■', -- Change this to match the icon in your screenshot
+    prefix = '■',
     spacing = 4,
   },
   signs = true,
@@ -20,7 +20,8 @@ vim.fn.sign_define("DiagnosticSignHint", {text = "!", numhl = "DiagnosticHint"})
 -- appearence
 vim.opt.colorcolumn = '120'
 vim.cmd("colorscheme cyberdream")
-vim.cmd [[highlight ColorColumn ctermbg=lightgrey guibg=grey]]
+vim.cmd [[highlight ColorColumn ctermbg=grey guibg=#1d1f21]]
+
 local opt = vim.opt
 -- line numbers
 opt.relativenumber = true
