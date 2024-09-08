@@ -5,3 +5,10 @@
 !README.md
 lazy-lock.json
 .ccls-cache
+.git
+.clang-format
+~
+.cache
+.ccls
+compile_commands.json
+config.lua

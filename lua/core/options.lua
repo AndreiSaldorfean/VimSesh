@@ -1,9 +1,27 @@
 vim.cmd("let g:netrw_liststyle = 3")
 
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '■',
+    spacing = 4,
+  },
+  signs = true,
+  update_in_insert = false,
+  underline = true,
+  severity_sort = true,
+})
+
+-- You can also configure the signs displayed in the sign column
+vim.fn.sign_define("DiagnosticSignError", {text = "X", numhl = "DiagnosticError"})
+vim.fn.sign_define("DiagnosticSignWarn", {text = "⚠", numhl = "DiagnosticWarn"})
+vim.fn.sign_define("DiagnosticSignInfo", {text = "i", numhl = "DiagnosticInfo"})
+vim.fn.sign_define("DiagnosticSignHint", {text = "!", numhl = "DiagnosticHint"})
+
 -- appearence
 vim.opt.colorcolumn = '120'
 vim.cmd("colorscheme cyberdream")
-vim.cmd [[highlight ColorColumn ctermbg=lightgrey guibg=grey]]
+vim.cmd [[highlight ColorColumn ctermbg=grey guibg=#1d1f21]]
+
 local opt = vim.opt
 -- line numbers
 opt.relativenumber = true
@@ -16,7 +34,7 @@ opt.shiftwidth = 2
 opt.expandtab = true
 opt.autoindent = true
 
-opt.wrap = false
+opt.wrap = true
 
 -- search settings
 opt.ignorecase = true
@@ -42,4 +60,3 @@ opt.splitbelow = true
 -- hide ~ on empty line
 opt.fillchars = { eob = " " }
 
-    
