@@ -17,8 +17,8 @@ lspconfig.clangd.setup {
     fallback_flags = { '-std=c++17' },
   }
 }
-
 local cmp = require('cmp')
+local lspkind = require('lspkind')
 
 cmp.setup({
   enabled = function()
@@ -46,24 +46,51 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ['<C-e>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-\\><C-n><C-\\><C-n>'] = cmp.mapping.abort(),
-    ['<TAB>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),  -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<TAB>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set select to false to only confirm explicitly selected items.
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),  -- Accept currently selected item. Set select to false to only confirm explicitly selected items.
   }),
   formatting = {
-    format = function(entry, vim_item)
-      -- fancy icons and a name of kind
-      vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
-      -- set a name for each source
-      vim_item.menu = ({
+    format = lspkind.cmp_format({
+      mode = 'symbol_text',
+      maxwidth = 30, -- if you want to not show text
+      symbol_map = {
+        Text = "T",
+        Method = "m",
+        Function = "F",
+        Constructor = "",
+        Field = "",
+        Variable = "",
+        Class = "",
+        Interface = "",
+        Module = "",
+        Property = "",
+        Unit = "",
+        Value = "v",
+        Enum = "",
+        Keyword = "k",
+        Snippet = "",
+        Color = "c",
+        File = "f",
+        Reference = "",
+        Folder = ">",
+        EnumMember = "",
+        Constant = "C",
+        Struct = "",
+        Event = "",
+        Operator = "O",
+        TypeParameter = "tp",
+      },
+      menu = ({
         buffer = "[Buffer]",
         nvim_lsp = "[LSP]",
         path = "[Path]",
-        fuzzy_path = "[FuzzyPath]",
-        luasnip = "[LuaSnip]",
-        nvim_lua = "[Lua]",
-        latex_symbols = "[LaTeX]",
-      })[entry.source.name]
-      return vim_item
-    end,
+        luasnip = "[Snippet]",
+        cmdline = "[Cmdline]",
+      })
+    }),
+  },
+  window = {
+    completion = cmp.config.window.bordered(), -- Border around the menu
+    documentation = cmp.config.window.bordered(),
   },
 })

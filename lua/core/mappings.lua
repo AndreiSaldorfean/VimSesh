@@ -51,14 +51,8 @@ vim.keymap.set('v', '<A-Up>', ":m '<-2<CR>gv", { noremap = true, silent = true }
 vim.keymap.set('v', '<A-Down>', ":m '>+1<CR>gv", { noremap = true, silent = true })
 
 -- Move between tabs
-vim.keymap.set('n', '<A-h>', ":BufferPrevious<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<A-l>', ":BufferNext<CR>", { noremap = true, silent = true })
-
--- Move between windows
-vim.keymap.set('n', '<S-k>', "<C-w>k<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<S-j>', "<C-w>j<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<S-h>', "<C-w>h<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<S-l>', "<C-w>l<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<S-Left>', ":BufferPrevious<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<S-Right>', ":BufferNext<CR>", { noremap = true, silent = true })
 
 -- Hop
 vim.keymap.set('n', 'f', ":HopChar1<CR>", { noremap = true, silent = true })
@@ -71,6 +65,7 @@ vim.keymap.set('n', '<F9>', ":lua require'dap'.step_into()<CR>", { noremap = tru
 vim.keymap.set('n', '<Space>b', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
 
 -- LSP
+vim.keymap.set('n', '<A-o>', 'ClangdSwitchSourceHeader<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'R', '<cmd>lua vim.lsp.buf.rename()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', { noremap = true, silent = true })
@@ -82,3 +77,5 @@ vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { noremap
 vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', { noremap = true, silent = true })
+
+vim.keymap.set('n', '<S-q>', ':BufferClose<cr>', { noremap = true, silent = true })

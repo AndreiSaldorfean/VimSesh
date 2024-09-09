@@ -17,12 +17,21 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
+	{ "folke/neodev.nvim",
+  	opts = {},
+	config = function()
+		require("neodev").setup({
+library = { plugins = { "nvim-dap-ui" }, types = true },
+
+	  -- add any options here, or leave empty to use the default settings
+	})
+	end
+	},
+
   -- Debugger
   {
     "mfussenegger/nvim-dap",
-    "rcarriga/nvim-dap-ui",
-    "nvim-neotest/nvim-nio",
-    dependencies = {"williamboman/mason.nvim", "jay-babu/mason-nvim-dap.nvim"},
+    dependencies = { "williamboman/mason.nvim", "jay-babu/mason-nvim-dap.nvim" },
     config = function()
       require("dapui").setup {}
       require('mason-nvim-dap').setup({
@@ -30,7 +39,11 @@ require("lazy").setup({
       })
     end
   },
-  -- Faster motions
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+  },
+    -- Faster motions
   {
     'phaazon/hop.nvim',
     branch = 'v2', -- optional but strongly recommended
@@ -106,8 +119,8 @@ require("lazy").setup({
       "nvim-telescope/telescope.nvim", -- optional
       "ibhagwan/fzf-lua",              -- optional
     },
-    config = function ()
-      require("neogit").setup{}
+    config = function()
+      require("neogit").setup {}
     end
   },
   -- Used for linters
@@ -226,6 +239,12 @@ require("lazy").setup({
   },
   -- COLORSCHEME
   {
+    "letorbi/vim-colors-modern-borland",
+    'Mofiqul/vscode.nvim',
+    "navarasu/onedark.nvim",
+    "askfiy/visual_studio_code",
+    "folke/tokyonight.nvim",
+    "EdenEast/nightfox.nvim",
     "catppuccin/nvim",
     "rose-pine/neovim",
     name = "rose-pine",
