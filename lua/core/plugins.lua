@@ -17,7 +17,26 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
-	{ "folke/neodev.nvim",
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.diagnostics.eslint,
+          null_ls.builtins.formatting.prettier,
+        },
+      })
+    end,
+  },
+  {
+    'github/copilot.vim',
+    config = function()
+      -- Optionally configure Copilot
+      vim.g.copilot_no_tab_map = true
+    end
+  },
+  { "folke/neodev.nvim",
   	opts = {},
 	config = function()
 		require("neodev").setup({
@@ -198,6 +217,13 @@ library = { plugins = { "nvim-dap-ui" }, types = true },
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path'
   },
+  {
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp"
+  },
   -- File explorer
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -240,7 +266,7 @@ library = { plugins = { "nvim-dap-ui" }, types = true },
   -- COLORSCHEME
   {
     "letorbi/vim-colors-modern-borland",
-    'Mofiqul/vscode.nvim',
+    -- 'Mofiqul/vscode.nvim',
     "navarasu/onedark.nvim",
     "askfiy/visual_studio_code",
     "folke/tokyonight.nvim",

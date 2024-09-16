@@ -17,8 +17,13 @@ lspconfig.clangd.setup {
     fallback_flags = { '-std=c++17' },
   }
 }
+
 local cmp = require('cmp')
 local lspkind = require('lspkind')
+
+-- LuaSnip configuration (for snippet support)
+local luasnip = require('luasnip')
+require("luasnip.loaders.from_vscode").lazy_load()  -- Load snippets from friendly-snippets or VSCode format
 
 cmp.setup({
   enabled = function()
@@ -34,20 +39,36 @@ cmp.setup({
   end,
   sources = cmp.config.sources {
     { name = 'nvim_lsp' },
+    { name = 'luasnip'},
     { name = 'path' },
     { name = 'buffer' },
   },
   snippet = {
     expand = function(args)
-      -- You need Neovim v0.10 to use vim.snippet
-      vim.snippet.expand(args.body)
+      require('luasnip').lsp_expand(args.body)  -- Use LuaSnip for snippet expansion
     end,
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-e>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-\\><C-n><C-\\><C-n>'] = cmp.mapping.abort(),
-    ['<TAB>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set select to false to only confirm explicitly selected items.
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),  -- Accept currently selected item. Set select to false to only confirm explicitly selected items.
+    ['<TAB>'] = cmp.mapping.confirm({ select = true }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<S-TAB>'] = function(fallback)
+      if luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end,
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
   }),
   formatting = {
     format = lspkind.cmp_format({
@@ -94,3 +115,4 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
 })
+

@@ -53,6 +53,7 @@ vim.keymap.set('v', '<A-Down>', ":m '>+1<CR>gv", { noremap = true, silent = true
 -- Move between tabs
 vim.keymap.set('n', '<S-Left>', ":BufferPrevious<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<S-Right>', ":BufferNext<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<S-q>', ':BufferClose<cr>', { noremap = true, silent = true })
 
 -- Hop
 vim.keymap.set('n', 'f', ":HopChar1<CR>", { noremap = true, silent = true })
@@ -78,4 +79,8 @@ vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', { noremap = tru
 vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', { noremap = true, silent = true })
 
-vim.keymap.set('n', '<S-q>', ':BufferClose<cr>', { noremap = true, silent = true })
+-- Map your own keybindings for Copilot suggestions (if desired)
+ vim.keymap.set('i', '<C-a>', 'copilot#Accept("\\<CR>")', {
+          expr = true,
+          replace_keycodes = false
+        })
