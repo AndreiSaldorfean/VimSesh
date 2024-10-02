@@ -62,8 +62,8 @@ vim.keymap.set('n', 't', ":HopPattern<CR>", { noremap = true, silent = true })
 -- DAP
 vim.keymap.set('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<F10>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F9>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<Space>b', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<F11>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<F2>', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
 
 -- LSP
 vim.keymap.set('n', '<A-o>', 'ClangdSwitchSourceHeader<cr>', { noremap = true, silent = true })
@@ -77,9 +77,15 @@ vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', { noremap = t
 vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<cr>',
+  { noremap = true, silent = true })
+vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<cr>',
+  { noremap = true, silent = true })
 
 -- Map your own keybindings for Copilot suggestions (if desired)
- vim.keymap.set('i', '<C-a>', 'copilot#Accept("\\<CR>")', {
-          expr = true,
-          replace_keycodes = false
-        })
+vim.keymap.set('i', '<C-a>', 'copilot#Accept("\\<CR>")', {
+  expr = true,
+  replace_keycodes = false
+})
+
+vim.keymap.set('n', '<C-a>', ':%y+<CR>', { noremap = true, silent = true })

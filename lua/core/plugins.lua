@@ -92,7 +92,7 @@ library = { plugins = { "nvim-dap-ui" }, types = true },
     config = function()
       -- Setup ufo with default configuration
       require('ufo').setup({
-        open_fold_hl_timeout = 10,
+        open_fold_hl_timeout = 0,
         provider_selector = function(filetype)
           if filetype == 'c' or filetype == 'cpp' then
             return { 'lsp', 'indent' }
