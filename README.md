@@ -19,3 +19,6 @@ Add-Content -Path $PROFILE -Value "Import-Module posh-git"
 # Key binds
 
 To be added. This is still in progress, but I configured a few basic stuff.
+
+# What to run after launching Neovim for the first time
+*    ````MasonInstall cpptools```` for C/C++ debugger

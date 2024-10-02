@@ -1,3 +1,4 @@
+vim.o.mouse = 'a'
 local links = {
   ['@lsp.type.namespace'] = '@namespace',
   ['@lsp.type.type'] = '@type',
