@@ -16,6 +16,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+
 require("lazy").setup({
   {
     "jose-elias-alvarez/null-ls.nvim",
@@ -36,17 +37,15 @@ require("lazy").setup({
       vim.g.copilot_no_tab_map = true
     end
   },
-  { "folke/neodev.nvim",
-  	opts = {},
-	config = function()
-		require("neodev").setup({
-library = { plugins = { "nvim-dap-ui" }, types = true },
-
-	  -- add any options here, or leave empty to use the default settings
-	})
-	end
-	},
-
+  {
+    "folke/neodev.nvim",
+    opts = {},
+    config = function()
+      require("neodev").setup({
+        library = { plugins = { "nvim-dap-ui" }, types = true },
+      })
+    end
+  },
   -- Debugger
   {
     "mfussenegger/nvim-dap",
@@ -62,7 +61,7 @@ library = { plugins = { "nvim-dap-ui" }, types = true },
     "rcarriga/nvim-dap-ui",
     dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
   },
-    -- Faster motions
+  -- Faster motions
   {
     'phaazon/hop.nvim',
     branch = 'v2', -- optional but strongly recommended
@@ -158,23 +157,39 @@ library = { plugins = { "nvim-dap-ui" }, types = true },
   },
   -- Tree-sitter for syntax highlighting and parsing
   {
-    "nvim-treesitter/nvim-treesitter",
-    lazy = false,
-    run = ":TSUpdate",
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate', -- Ensure treesitter is installed and updated
     config = function()
       require('nvim-treesitter.configs').setup {
-        prefer_git = false,
-        auto_install = false,
-        compiler = "gcc",
-        ensure_installed = { "c", "python", "cpp", "lua", "markdown", "markdown_inline", "html" },
+        -- Treesitter configs
+        ensure_installed = { "cpp", "c", "lua", "python", "javascript" }, -- Add the languages you need
         highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
+          enable = false,
         },
       }
-    end,
+    end
+  }, -- Markdown support
+  {
+    'HiPhish/rainbow-delimiters.nvim',
+    config = function()
+
+      local rainbow_delimiters = require 'rainbow-delimiters'
+
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [''] = rainbow_delimiters.strategy['global'],
+        },
+        query = {
+          [''] = 'rainbow-delimiters',
+        },
+        highlight = {
+          'RainbowDelimiterYellow',
+          'RainbowDelimiterViolet',
+          'RainbowDelimiterBlue',
+        },
+      }
+    end
   },
-  -- Markdown support
   {
     "OXY2DEV/markview.nvim",
     lazy = false, -- Recommended
@@ -208,7 +223,7 @@ library = { plugins = { "nvim-dap-ui" }, types = true },
   },
   -- LSP
   {
-    "onsails/lspkind.nvim", -- modifying autocomplete menu
+    "onsails/lspkind.nvim",
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
     'neovim/nvim-lspconfig',
@@ -266,38 +281,25 @@ library = { plugins = { "nvim-dap-ui" }, types = true },
   -- COLORSCHEME
   {
     "letorbi/vim-colors-modern-borland",
-    -- 'Mofiqul/vscode.nvim',
-    "navarasu/onedark.nvim",
-    "askfiy/visual_studio_code",
+    'Mofiqul/vscode.nvim',
     "folke/tokyonight.nvim",
     "EdenEast/nightfox.nvim",
     "catppuccin/nvim",
-    "rose-pine/neovim",
-    name = "rose-pine",
-    'kvrohit/rasmus.nvim',           --  No 2
-    "scottmckendry/cyberdream.nvim", -- No 1
-    'ribru17/bamboo.nvim',           -- Nice
+    "scottmckendry/cyberdream.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      require('rose-pine').load()
-      require('bamboo').load()
+      require('vscode').load()
     end,
   },
   -- BARBAR
   {
     'romgrk/barbar.nvim',
     dependencies = {
-      'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
-      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+      'lewis6991/gitsigns.nvim',
+      'nvim-tree/nvim-web-devicons',
     },
     init = function() vim.g.barbar_auto_setup = false end,
-    opts = {
-      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
-      -- animation = true,
-      -- insert_at_start = true,
-      -- …etc.
-    },
     version = '^1.0.0'
   },
   {

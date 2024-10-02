@@ -1,37 +1,62 @@
--- -- Lua:
--- -- For dark theme (neovim's default)
--- vim.o.background = 'dark'
+-- Lua: For dark theme (neovim's default)
+vim.o.background = 'dark'
+local c = require('vscode.colors').get_colors()
+require('vscode').setup({
+  -- Alternatively set style in setup
+  -- style = 'light'
 
--- local c = require('vscode.colors').get_colors()
--- require('vscode').setup({
---     -- Alternatively set style in setup
---     -- style = 'light'
+  -- Enable transparent background
+  transparent = false,
 
---     -- Enable transparent background
---     transparent = false,
+  -- Enable italic comment
+  italic_comments = false,
 
---     -- Enable italic comment
---     italic_comments = false,
+  -- Underline `@markup.link.*` variants
+  underline_links = true,
 
---     -- Underline `@markup.link.*` variants
---     underline_links = true,
+  -- Disable nvim-tree background color
+  disable_nvimtree_bg = false,
+  -- Override colors (see ./lua/vscode/colors.lua)
+  color_overrides = {
+    vscGitIgnored = '#4a4a4a',
+    vscLineNumber = '#454545',
+  },
 
---     -- Disable nvim-tree background color
---     disable_nvimtree_bg = false,
---     -- Override colors (see ./lua/vscode/colors.lua)
---     color_overrides = {
---         vscLineNumber = '#454545',
---         vscGitIgnored = '#000000',
---     },
+  -- Override highlight groups (see ./lua/vscode/theme.lua)
+  group_overrides = {
+    -- this supports the same val table as vim.api.nvim_set_hl
+    -- use colors from this colorscheme by requiring vscode.colors!
+    Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+  }
+})
+-- require('vscode').load()
 
---     -- Override highlight groups (see ./lua/vscode/theme.lua)
---     group_overrides = {
---         -- this supports the same val table as vim.api.nvim_set_hl
---         -- use colors from this colorscheme by requiring vscode.colors!
---         Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
---     }
--- })
--- -- require('vscode').load()
+-- load the theme without affecting devicon colors.
+vim.cmd.colorscheme "vscode"
 
--- -- load the theme without affecting devicon colors.
--- vim.cmd.colorscheme "vscode"
+vim.api.nvim_create_autocmd("LspTokenUpdate", {
+  callback = function(args)
+    local token = args.data.token
+    -- print("Token type: " .. token.type)
+    if token.type == "variable" and token.modifiers.globalScope and not token.modifiers.readonly then
+      vim.api.nvim_set_hl(0, 'GlobalVarHL', { fg = '#3b9aa3' })
+      vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, 'GlobalVarHL')
+    end
+  end,
+})
+
+vim.cmd([[
+  highlight NeoTreeGitIgnored guifg=#7f8c8c
+  highlight NeoTreeGitModified guifg=#e2b968
+  highlight NeoTreeGitUntracked guifg=#50b791
+]])
+
+vim.cmd([[
+    highlight RainbowDelimiterYellow guifg=#f8b417
+    highlight RainbowDelimiterBlue guifg=#1895e2
+    highlight RainbowDelimiterViolet guifg=#da70d6
+]])
+vim.api.nvim_set_hl(0, "Structure", { fg = '#569cd6' })
+vim.api.nvim_set_hl(0, "StorageClass", { fg = '#156ab0' })
+vim.api.nvim_set_hl(0, "Operator", { fg = '#569cd6' })
+

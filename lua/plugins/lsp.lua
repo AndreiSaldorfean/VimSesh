@@ -1,6 +1,20 @@
 -- to learn how to use mason.nvim
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
-require('mason').setup({})
+-- local mason_registry = require("mason-registry")
+
+-- Function to ensure cpptools is installed
+-- Import Mason API
+require('mason').setup({
+  ensure_installed = {
+    'clangd',
+    'cmake',
+    'dockerls',
+    'gopls',
+    'html',
+    'jsonls',
+    'cpptools'
+  },
+})
 require('mason-lspconfig').setup({
   ensure_installed = {},
   handlers = {
@@ -9,6 +23,7 @@ require('mason-lspconfig').setup({
     end,
   },
 })
+
 -- C/C++ LSP
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup {
