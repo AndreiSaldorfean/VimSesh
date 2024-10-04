@@ -90,3 +90,4 @@ vim.keymap.set('i', '<C-a>', 'copilot#Accept("\\<CR>")', {
 
 vim.keymap.set('n', '<C-a>', ':%y+<CR>', { noremap = true, silent = true })
 vim.cmd('noremap q: :')
+vim.cmd('noremap q/ /')

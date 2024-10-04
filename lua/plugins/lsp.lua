@@ -27,6 +27,13 @@ require('mason-lspconfig').setup({
 -- C/C++ LSP
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup {
+  on_attach = function(client, bufnr)
+    if client.server_capabilities.semanticTokensProvider then
+      vim.lsp.semantic_tokens.start(bufnr, client.id)
+    end
+  end,
+  -- capabilities = capabilities,
+  -- handlers = require('plugins.cInactiveRegions').handlers,
   cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose' },
   init_options = {
     fallback_flags = { '-std=c++17' },
@@ -38,7 +45,7 @@ local lspkind = require('lspkind')
 
 -- LuaSnip configuration (for snippet support)
 local luasnip = require('luasnip')
-require("luasnip.loaders.from_vscode").lazy_load()  -- Load snippets from friendly-snippets or VSCode format
+require("luasnip.loaders.from_vscode").lazy_load() -- Load snippets from friendly-snippets or VSCode format
 
 cmp.setup({
   enabled = function()
@@ -54,13 +61,13 @@ cmp.setup({
   end,
   sources = cmp.config.sources {
     { name = 'nvim_lsp' },
-    { name = 'luasnip'},
+    { name = 'luasnip' },
     { name = 'path' },
     { name = 'buffer' },
   },
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)  -- Use LuaSnip for snippet expansion
+      require('luasnip').lsp_expand(args.body) -- Use LuaSnip for snippet expansion
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -130,4 +137,3 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
 })
-

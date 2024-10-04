@@ -1,4 +1,4 @@
--- Bootstrap lazy.nvim
+-- Bootstrap lazy.nvimplugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -164,7 +164,7 @@ require("lazy").setup({
         -- Treesitter configs
         ensure_installed = { "cpp", "c", "lua", "python", "javascript" }, -- Add the languages you need
         highlight = {
-          enable = false,
+          enable = true,              -- false will disable the whole extension
         },
       }
     end
@@ -172,7 +172,6 @@ require("lazy").setup({
   {
     'HiPhish/rainbow-delimiters.nvim',
     config = function()
-
       local rainbow_delimiters = require 'rainbow-delimiters'
 
       vim.g.rainbow_delimiters = {
@@ -299,7 +298,7 @@ require("lazy").setup({
       'lewis6991/gitsigns.nvim',
       'nvim-tree/nvim-web-devicons',
     },
-    init = function() vim.g.barbar_auto_setup = false end,
+    init = function() vim.g.barbar_auto_setup = true end,
     version = '^1.0.0'
   },
   {

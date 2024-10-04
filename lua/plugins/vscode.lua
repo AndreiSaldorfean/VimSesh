@@ -28,7 +28,7 @@ require('vscode').setup({
     -- use colors from this colorscheme by requiring vscode.colors!
     Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
   }
-})
+  })
 -- require('vscode').load()
 
 -- load the theme without affecting devicon colors.
@@ -37,7 +37,6 @@ vim.cmd.colorscheme "vscode"
 vim.api.nvim_create_autocmd("LspTokenUpdate", {
   callback = function(args)
     local token = args.data.token
-    -- print("Token type: " .. token.type)
     if token.type == "variable" and token.modifiers.globalScope and not token.modifiers.readonly then
       vim.api.nvim_set_hl(0, 'GlobalVarHL', { fg = '#3b9aa3' })
       vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, 'GlobalVarHL')
@@ -56,7 +55,7 @@ vim.cmd([[
     highlight RainbowDelimiterBlue guifg=#1895e2
     highlight RainbowDelimiterViolet guifg=#da70d6
 ]])
-vim.api.nvim_set_hl(0, "Structure", { fg = '#569cd6' })
-vim.api.nvim_set_hl(0, "StorageClass", { fg = '#156ab0' })
-vim.api.nvim_set_hl(0, "Operator", { fg = '#569cd6' })
 
+vim.api.nvim_set_hl(0, "@keyword.modifier", { fg = '#156ab0' })
+vim.api.nvim_set_hl(0, "@keyword.directive", { link = "@function.macro" })
+vim.api.nvim_set_hl(0, "@lsp.typemod.class.classScope.cpp", { link = "@function.method" })
