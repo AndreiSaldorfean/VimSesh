@@ -19,6 +19,9 @@ vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
   {
+    'skywind3000/asyncrun.vim'
+  },
+  {
     "jose-elias-alvarez/null-ls.nvim",
     config = function()
       local null_ls = require("null-ls")
@@ -164,7 +167,7 @@ require("lazy").setup({
         -- Treesitter configs
         ensure_installed = { "cpp", "c", "lua", "python", "javascript" }, -- Add the languages you need
         highlight = {
-          enable = true,              -- false will disable the whole extension
+          enable = true,                                                  -- false will disable the whole extension
         },
       }
     end
