@@ -60,13 +60,13 @@ vim.keymap.set('n', 'f', ":HopChar1<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', 't', ":HopPattern<CR>", { noremap = true, silent = true })
 
 -- DAP
-vim.keymap.set('n', '<F5>', ":lua require'dap'.continue()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<F5>', ":lua Start_default_debugger()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<F10>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<F11>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<F2>', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
 
 -- LSP
-vim.keymap.set('n', '<A-o>', 'ClangdSwitchSourceHeader<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-o>', ':ClangdSwitchSourceHeader<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'R', '<cmd>lua vim.lsp.buf.rename()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', { noremap = true, silent = true })
