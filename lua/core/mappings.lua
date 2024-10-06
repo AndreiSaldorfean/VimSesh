@@ -41,7 +41,7 @@ vim.keymap.set('v', '<Tab>', ">gv", { noremap = true, silent = true })
 vim.keymap.set('v', '<S-Tab>', "<gv", { noremap = true, silent = true })
 
 --Save/Quit
-vim.keymap.set({ 'n', 'v', 'i' }, '<C-s>', "<C-\\><C-n>:w!<CR>", { noremap = true, silent = true })
+vim.keymap.set({ 'n','v','i'}, '<C-s>', "<C-\\><C-n>:up!<CR>", { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, 'qq', '<C-\\><C-n>:qa!<CR>', { noremap = true, silent = true })
 
 -- Vscode move up/down

@@ -12,7 +12,6 @@ require('mason').setup({
     'gopls',
     'html',
     'jsonls',
-    'cpptools'
   },
 })
 require('mason-lspconfig').setup({
@@ -32,9 +31,7 @@ lspconfig.clangd.setup {
       vim.lsp.semantic_tokens.start(bufnr, client.id)
     end
   end,
-  -- capabilities = capabilities,
-  -- handlers = require('plugins.cInactiveRegions').handlers,
-  cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose' },
+  cmd = { 'clangd', '--background-index', '--clang-tidy','--completion-style=detailed', '--fallback-style=llvm'},
   init_options = {
     fallback_flags = { '-std=c++17' },
   }

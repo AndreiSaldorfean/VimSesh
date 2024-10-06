@@ -70,24 +70,6 @@ require("lazy").setup({
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
     end
   },
-  -- Folding
-  {
-    'kevinhwang91/nvim-ufo',
-    dependencies = 'kevinhwang91/promise-async',
-    config = function()
-      -- Setup ufo with default configuration
-      require('ufo').setup({
-        open_fold_hl_timeout = 0,
-        provider_selector = function(filetype)
-          if filetype == 'c' or filetype == 'cpp' then
-            return { 'lsp', 'indent' }
-          else
-            return { 'treesitter', 'indent' }
-          end
-        end
-      })
-    end
-  },
   -- Dashboard
   {
     "goolord/alpha-nvim",
@@ -100,14 +82,13 @@ require("lazy").setup({
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
-    -- @module "ibl"
-    -- @type ibl.config
     opts = {},
     config = function()
       require("ibl").setup {
         indent = {
+          char = '│',
           smart_indent_cap = false,
-          repeat_linebreak = false
+          repeat_linebreak = false,
         }
       }
     end
@@ -268,9 +249,6 @@ require("lazy").setup({
     "letorbi/vim-colors-modern-borland",
     'Mofiqul/vscode.nvim',
     "folke/tokyonight.nvim",
-    "EdenEast/nightfox.nvim",
-    "catppuccin/nvim",
-    "scottmckendry/cyberdream.nvim",
     lazy = false,
     priority = 1000,
     config = function()

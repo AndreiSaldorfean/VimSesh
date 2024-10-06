@@ -23,6 +23,44 @@ for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
   vim.api.nvim_set_hl(0, group, {})
 end
 
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+
+vim.opt.foldlevel = 99
+vim.opt.foldenable = true
+
+vim.opt.foldtext = 'v:lua.CustomFoldText()'
+function CustomFoldText()
+  -- Get first non-blank line
+  local fs = vim.v.foldstart
+  while vim.fn.getline(fs):match("^%s*$") do
+    fs = vim.fn.nextnonblank(fs + 1)
+    if fs > vim.v.foldend then
+      break
+    end
+  end
+
+  local line
+  if fs > vim.v.foldend then
+    line = vim.fn.getline(vim.v.foldstart)
+  else
+    -- Replace tabs with spaces according to 'tabstop'
+    line = vim.fn.getline(fs):gsub('\t', string.rep(' ', vim.o.tabstop))
+  end
+
+  -- Get the available width for the fold text
+  local win_width = vim.fn.winwidth(0)
+  local foldcolumn_width = vim.o.foldcolumn
+  local number_width = vim.o.number and 8 or 0
+  local available_width = win_width - foldcolumn_width - number_width
+
+  -- Adjust the space so the fold text fits within the available window width
+  local expansion_string = string.rep(" ", available_width)
+
+  -- Return the final fold text
+  return line .. expansion_string
+end
+
 vim.g.copilot_no_tab_map = true
 
 vim.cmd("let g:netrw_liststyle = 3")
