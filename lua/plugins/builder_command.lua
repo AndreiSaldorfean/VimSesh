@@ -6,6 +6,26 @@
 --   "dirs": ["dir1","dr2","dir3"]
 -- }
 
+
+local function asyncJob(command)
+  vim.defer_fn(function()
+  vim.fn.jobstart(command, {
+    on_stdout = function(_, data)
+      -- Process the output
+      print(table.concat(data, "\n"))
+    end,
+    on_stderr = function(_, data)
+      -- Handle errors if needed
+      print(table.concat(data, "\n"))
+    end,
+    on_exit = function(_, exit_code)
+      -- Do something when the command finishes
+      print("Command exited with code:", exit_code)
+    end
+  })
+  end, 200) -- Delay for 2000 milliseconds (2 seconds)
+end
+
 local M = {}
 
 M.build_config = {}
@@ -53,15 +73,11 @@ function M.is_in_target_folder()
 end
 
 function M.run_build()
-  vim.cmd("silent! !sh -c \"clear > /tmp/link\"")
-  local build_command = "silent! !sh -c \"clear && cd " ..
-      M.build_config.buildDir .. " && " ..
-      M.build_config.command .. " > /tmp/link \""
-  vim.cmd(build_command)
-  build_command = "silent! !sh -c \"" .. "cd " ..
-      M.build_config.buildDir .. " && ./" ..
-      M.build_config.executable .. " > /tmp/link\""
-  vim.cmd(build_command)
+  local build_command = 'cd ' ..
+      M.build_config.buildDir .. ' && ' ..
+      M.build_config.command .. ' > /tmp/link &&'
+  local run_command = './' .. M.build_config.executable .. ' > /tmp/link'
+  asyncJob('sh -c "clear > /tmp/link && ' .. build_command .. run_command .. '"')
 end
 
 return M
