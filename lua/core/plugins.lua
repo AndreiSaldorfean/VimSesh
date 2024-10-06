@@ -73,20 +73,6 @@ require("lazy").setup({
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
     end
   },
-  -- Word matching
-  {
-    'RRethy/vim-illuminate',
-    config = function()
-      require('illuminate').configure({
-        providers = {
-          'treesitter',
-          'lsp',
-          'regex',
-        },
-        filetypes_denylist = { 'Neotree', 'Lazy', 'alpha' }, -- Exclude certain filetypes
-      })
-    end
-  },
   -- Folding
   {
     'kevinhwang91/nvim-ufo',
