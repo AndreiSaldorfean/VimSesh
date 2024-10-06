@@ -22,14 +22,16 @@ vim.keymap.set({ 'n', 'v' }, '<leader>f', '<ESC>:Telescope grep_string<CR>', { n
 vim.keymap.set('n', '<C-p>', ':Telescope find_files<cr>', { noremap = true, silent = true })
 
 ----Git signs
+vim.keymap.set({ 'n', 'v' }, '<leader>gs', '<ESC>:Gitsigns undo_stage_hunk<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>gs', '<ESC>:Gitsigns stage_hunk<CR>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>g', '<ESC>:Gitsigns blame_line<CR>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<C-Down>', '<ESC>:Gitsigns next_hunk<CR>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<C-Up>', '<ESC>:Gitsigns prev_hunk<CR>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>q', '<ESC>:Gitsigns preview_hunk<CR>', { noremap = true, silent = true })
-
---  NeoTree
 vim.keymap.set({ 'n', 'v' }, '<leader>e', '<ESC>:Neotree toggle<CR>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, ';', '<ESC>:Neogit<CR>', { noremap = true, silent = true })
+
+--  NeoTree
 
 vim.keymap.set('n', '<Tab>', '>>', { noremap = true, silent = true })
 vim.keymap.set('n', '<S-Tab>', '<<', { noremap = true, silent = true })

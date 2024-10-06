@@ -59,3 +59,5 @@ vim.cmd([[
 vim.api.nvim_set_hl(0, "@keyword.modifier", { fg = '#156ab0' })
 vim.api.nvim_set_hl(0, "@keyword.directive", { link = "@function.macro" })
 vim.api.nvim_set_hl(0, "@lsp.typemod.class.classScope.cpp", { link = "@function.method" })
+vim.api.nvim_set_hl(0, "@string.escape.cpp", { fg = '#d7ba66' })
+vim.api.nvim_set_hl(0, "@lsp.type.operator.cpp", { fg = '#c586c0' })
