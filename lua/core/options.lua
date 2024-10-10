@@ -23,8 +23,8 @@ for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
   vim.api.nvim_set_hl(0, group, {})
 end
 
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldmethod = 'syntax'
+-- vim.opt.foldexpr = 'syntax'
 
 vim.opt.foldlevel = 99
 vim.opt.foldenable = true

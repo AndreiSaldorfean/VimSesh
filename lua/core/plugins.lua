@@ -123,39 +123,39 @@ require("lazy").setup({
     'tpope/vim-fugitive'
   },
   -- Tree-sitter for syntax highlighting and parsing
-  {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate', -- Ensure treesitter is installed and updated
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        -- Treesitter configs
-        ensure_installed = { "cpp", "c", "lua", "python", "javascript" }, -- Add the languages you need
-        highlight = {
-          enable = true,                                                  -- false will disable the whole extension
-        },
-      }
-    end
-  }, -- Markdown support
-  {
-    'HiPhish/rainbow-delimiters.nvim',
-    config = function()
-      local rainbow_delimiters = require 'rainbow-delimiters'
+  -- {
+  --   'nvim-treesitter/nvim-treesitter',
+  --   build = ':TSUpdate', -- Ensure treesitter is installed and updated
+  --   config = function()
+  --     require('nvim-treesitter.configs').setup {
+  --       -- Treesitter configs
+  --       ensure_installed = { "cpp", "c", "lua", "python", "javascript" }, -- Add the languages you need
+  --       highlight = {
+  --         enable = true,                                                  -- false will disable the whole extension
+  --       },
+  --     }
+  --   end
+  -- }, -- Markdown support
+  -- {
+  --   'HiPhish/rainbow-delimiters.nvim',
+  --   config = function()
+  --     local rainbow_delimiters = require 'rainbow-delimiters'
 
-      vim.g.rainbow_delimiters = {
-        strategy = {
-          [''] = rainbow_delimiters.strategy['global'],
-        },
-        query = {
-          [''] = 'rainbow-delimiters',
-        },
-        highlight = {
-          'RainbowDelimiterYellow',
-          'RainbowDelimiterViolet',
-          'RainbowDelimiterBlue',
-        },
-      }
-    end
-  },
+  --     vim.g.rainbow_delimiters = {
+  --       strategy = {
+  --         [''] = rainbow_delimiters.strategy['global'],
+  --       },
+  --       query = {
+  --         [''] = 'rainbow-delimiters',
+  --       },
+  --       highlight = {
+  --         'RainbowDelimiterYellow',
+  --         'RainbowDelimiterViolet',
+  --         'RainbowDelimiterBlue',
+  --       },
+  --     }
+  --   end
+  -- },
   {
     "OXY2DEV/markview.nvim",
     lazy = false, -- Recommended
