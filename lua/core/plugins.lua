@@ -19,25 +19,6 @@ vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
   {
-    "jose-elias-alvarez/null-ls.nvim",
-    config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.diagnostics.eslint,
-          null_ls.builtins.formatting.prettier,
-        },
-      })
-    end,
-  },
-  {
-    'github/copilot.vim',
-    config = function()
-      -- Optionally configure Copilot
-      vim.g.copilot_no_tab_map = true
-    end
-  },
-  {
     "folke/neodev.nvim",
     opts = {},
     config = function()
@@ -70,14 +51,6 @@ require("lazy").setup({
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
     end
   },
-  -- Dashboard
-  {
-    "goolord/alpha-nvim",
-    config = function()
-      require 'alpha'.setup(require 'alpha.themes.dashboard'.config)
-    end,
-    event = "VimEnter",
-  },
   -- Backline
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -93,83 +66,24 @@ require("lazy").setup({
       }
     end
   },
-  -- Git when you forget all commands
-  {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",  -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
-
-      -- Only one of these is needed, not both.
-      "nvim-telescope/telescope.nvim", -- optional
-      "ibhagwan/fzf-lua",              -- optional
-    },
-    config = function()
-      require("neogit").setup {}
-    end
-  },
-  -- Used for linters
-  {
-    'jose-elias-alvarez/null-ls.nvim'
-  },
   -- Remember last session
   {
     "olimorris/persisted.nvim",
     lazy = false, -- make sure the plugin is always loaded at startup
     config = true
   },
-  -- Vim fugitive, used for seeing files and folders ignored by gitignore
-  {
-    'tpope/vim-fugitive'
-  },
   -- Tree-sitter for syntax highlighting and parsing
-  -- {
-  --   'nvim-treesitter/nvim-treesitter',
-  --   build = ':TSUpdate', -- Ensure treesitter is installed and updated
-  --   config = function()
-  --     require('nvim-treesitter.configs').setup {
-  --       -- Treesitter configs
-  --       ensure_installed = { "cpp", "c", "lua", "python", "javascript" }, -- Add the languages you need
-  --       highlight = {
-  --         enable = true,                                                  -- false will disable the whole extension
-  --       },
-  --     }
-  --   end
-  -- }, -- Markdown support
-  -- {
-  --   'HiPhish/rainbow-delimiters.nvim',
-  --   config = function()
-  --     local rainbow_delimiters = require 'rainbow-delimiters'
-
-  --     vim.g.rainbow_delimiters = {
-  --       strategy = {
-  --         [''] = rainbow_delimiters.strategy['global'],
-  --       },
-  --       query = {
-  --         [''] = 'rainbow-delimiters',
-  --       },
-  --       highlight = {
-  --         'RainbowDelimiterYellow',
-  --         'RainbowDelimiterViolet',
-  --         'RainbowDelimiterBlue',
-  --       },
-  --     }
-  --   end
-  -- },
   {
-    "OXY2DEV/markview.nvim",
-    lazy = false, -- Recommended
-
-    dependencies = {
-      "nvim-tree/nvim-web-devicons"
-    }
-  },
-  -- Diff view
-  {
-    'sindrets/diffview.nvim',
-    requires = 'nvim-lua/plenary.nvim',
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate', -- Ensure treesitter is installed and updated
     config = function()
-      require('diffview').setup {}
+      require('nvim-treesitter.configs').setup {
+        -- Treesitter configs
+        ensure_installed = { "cpp", "c", "lua", "python", "javascript" }, -- Add the languages you need
+        highlight = {
+          enable = true,                                                  -- false will disable the whole extension
+        },
+      }
     end
   },
   -- AUTO PAIRS
@@ -246,9 +160,7 @@ require("lazy").setup({
   },
   -- COLORSCHEME
   {
-    "letorbi/vim-colors-modern-borland",
     'Mofiqul/vscode.nvim',
-    "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
     config = function()
@@ -265,23 +177,12 @@ require("lazy").setup({
     init = function() vim.g.barbar_auto_setup = true end,
     version = '^1.0.0'
   },
-  {
-    'nvim-telescope/telescope.nvim',
-    tag = '0.1.8',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-
-    'nvim-telescope/telescope-fzf-native.nvim',
-    'junegunn/fzf',
-    run = 'make',
-  },
   -- TERMINAL
   {
     'akinsho/toggleterm.nvim',
     version = "*",
     config = function()
-      require("toggleterm").setup({
-        shell = "C:\\Tools\\PowerShell\\pwsh.exe"
-      })
+      require("toggleterm").setup {}
     end
   },
 })
