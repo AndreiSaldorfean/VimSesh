@@ -1,15 +1,16 @@
 vim.o.mouse = 'a'
 
 -- Folds
-vim.opt.foldmethod = 'syntax'
--- vim.opt.foldexpr = 'syntax'
-
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 vim.opt.foldenable = true
 
 vim.cmd("let g:netrw_liststyle = 3")
 
 -- appearence
+vim.g.flog_enable_extended_chars = 1
+vim.opt.laststatus = 0
 vim.opt.colorcolumn = '120'
 vim.cmd("colorscheme vscode")
 vim.cmd [[highlight ColorColumn ctermbg=grey guibg=#1d1f21]]
