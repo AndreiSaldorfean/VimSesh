@@ -1,35 +1,27 @@
 --- Comment
+vim.keymap.set({ 'n', 'i' }, '<C-/>', '<esc>:Commentary<CR>', { noremap = true, silent = true })
+vim.keymap.set('v', '<C-/>', ':Commentary<CR>gv', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'i' }, '<C-_>', '<esc>:Commentary<CR>', { noremap = true, silent = true })
 vim.keymap.set('v', '<C-_>', ':Commentary<CR>gv', { noremap = true, silent = true })
 
 ---- ESCAPE
 vim.keymap.set('t', '<esc>', '<C-\\><C-n>', { noremap = true, silent = true })
 
----- Terminal
-vim.keymap.set({ 'n', 't', 'i' }, '<C-f>', '<C-\\><C-n>:ToggleTerm size=10 direction=horizontal<cr>',
-  { noremap = true, silent = true })
-
-----Open diff view
-vim.keymap.set({ 'n', 'v' }, '<C-r>', '<ESC>:DiffviewOpen<CR>', { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<C-q>', '<ESC>:DiffviewClose<CR>', { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<C-q>', '<ESC>:DiffviewClose<CR>', { noremap = true, silent = true })
-
 ---- Remove highlight
 vim.keymap.set({ 'n', 'v' }, '<leader>h', '<ESC>:nohl<CR>', { noremap = true, silent = true })
 
 ----Telescope
-vim.keymap.set({ 'n', 'v' }, '<leader>f', '<ESC>:Telescope grep_string<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-p>', ':Telescope find_files<cr>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>f', ':FzfLua grep_project<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-p>', ':FzfLua files<cr>', { noremap = true, silent = true })
 
 ----Git signs
-vim.keymap.set({ 'n', 'v' }, '<leader>gs', '<ESC>:Gitsigns undo_stage_hunk<CR>', { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>gs', '<ESC>:Gitsigns stage_hunk<CR>', { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>g', '<ESC>:Gitsigns blame_line<CR>', { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<C-Down>', '<ESC>:Gitsigns next_hunk<CR>', { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<C-Up>', '<ESC>:Gitsigns prev_hunk<CR>', { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>q', '<ESC>:Gitsigns preview_hunk<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<S-s>', '<ESC>:Gitsigns stage_hunk<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<S-u>', '<ESC>:Gitsigns undo_stage_hunk<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<S-r>', '<ESC>:Gitsigns reset_hunk<CR>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>e', '<ESC>:Neotree toggle<CR>', { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, ';', '<ESC>:Neogit<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<F1>', '<ESC>:SessionLoad<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>r', '<ESC>:DiffviewOpen<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>t', '<ESC>:DiffviewClose<CR>', { noremap = true, silent = true })
 
 --  NeoTree
 
@@ -45,16 +37,19 @@ vim.keymap.set({ 'n','v','i'}, '<C-s>', "<C-\\><C-n>:up!<CR>", { noremap = true,
 vim.keymap.set({ 'n', 'v' }, 'qq', '<C-\\><C-n>:qa!<CR>', { noremap = true, silent = true })
 
 -- Vscode move up/down
+vim.keymap.set('n', '<A-k>', ":m-2<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<A-j>', ":m+1<CR>", { noremap = true, silent = true })
+vim.keymap.set('i', '<A-k>', "<C-o>d:m-2<CR>", { noremap = true, silent = true })
+vim.keymap.set('i', '<A-j>', "<C-o>d:m+1<CR>", { noremap = true, silent = true })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv", { noremap = true, silent = true })
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv", { noremap = true, silent = true })
+vim.keymap.set('n', '<S-q>', ':BufferClose<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<A-Up>', ":m-2<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<A-Down>', ":m+1<CR>", { noremap = true, silent = true })
 vim.keymap.set('i', '<A-Up>', "<C-o>d:m-2<CR>", { noremap = true, silent = true })
 vim.keymap.set('i', '<A-Down>', "<C-o>d:m+1<CR>", { noremap = true, silent = true })
 vim.keymap.set('v', '<A-Up>', ":m '<-2<CR>gv", { noremap = true, silent = true })
 vim.keymap.set('v', '<A-Down>', ":m '>+1<CR>gv", { noremap = true, silent = true })
-
--- Move between tabs
-vim.keymap.set('n', '<S-Left>', ":BufferPrevious<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<S-Right>', ":BufferNext<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<S-q>', ':BufferClose<cr>', { noremap = true, silent = true })
 
 -- Hop
@@ -62,9 +57,11 @@ vim.keymap.set('n', 'f', ":HopChar1<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', 't', ":HopPattern<CR>", { noremap = true, silent = true })
 
 -- DAP
+vim.keymap.set('n', '<C-q>', ":lua require(\"dapui\").eval(nil, { enter = true })<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<F5>', ":lua Start_default_debugger()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F10>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<F11>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<F6>', ":DapDisconnect<CR>:lua require('dapui').close()<CR>:DapVirtualTextForceRefresh<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<F9>', ":lua require'dap'.step_over()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<F10>', ":lua require'dap'.step_into()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<F2>', ":lua require'dap'.toggle_breakpoint()<CR>", { noremap = true, silent = true })
 
 -- LSP
@@ -92,4 +89,10 @@ vim.keymap.set('i', '<C-a>', 'copilot#Accept("\\<CR>")', {
 
 vim.keymap.set('n', '<C-a>', ':%y+<CR>', { noremap = true, silent = true })
 vim.cmd('noremap q: :')
+vim.cmd('noremap <S-Down> j')
+vim.cmd('noremap <S-Up> k')
 vim.cmd('noremap q/ /')
+
+-- BARBAR
+vim.keymap.set({ 'n' }, '<S-h>', ':bp<cr>', { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<S-l>', ':bn<cr>', { noremap = true, silent = true })
