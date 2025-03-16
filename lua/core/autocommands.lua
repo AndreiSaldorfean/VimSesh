@@ -67,3 +67,16 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "asm",
+    callback = function()
+        if vim.fn.expand("%:e") == "asm" then
+            vim.cmd("setlocal syntax=masm")
+        end
+    end,
+})
+-- function OpenMarkdownPreview(url)
+--   os.execute("brave-browser --new-window " .. url)
+-- end
+
+-- vim.g.mkdp_browserfunc = 'OpenMarkdownPreview'
