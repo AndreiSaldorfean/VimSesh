@@ -11,18 +11,13 @@ dap.adapters.cppdbg = {
 
 dap.configurations.cpp = dap.configurations.cpp or {}
 
--- Function to load the `.vscode/launch.json` file
 local function load_vscode_launch_json()
-  -- Define the path to `.vscode/launch.json`
   local launch_file = vim.fn.getcwd() .. '/.vscode/launch.json'
 
   if vim.fn.filereadable(launch_file) == 0 then
     return
   end
-  -- Read the JSON file
   local file_content = vim.fn.readfile(launch_file)
-
-  -- Parse the JSON content
   local json_data = vim.fn.json_decode(table.concat(file_content, "\n"))
 
   if not json_data or not json_data.configurations then
@@ -34,18 +29,18 @@ local function load_vscode_launch_json()
   for _, config in ipairs(json_data.configurations) do
     if config.type == "cppdbg" then
       table.insert(dap.configurations.cpp, {
-        name = config.name,
+        name = "(gdb) Launch",
         type = "cppdbg",
-        request = config.request,
-        program = config.program,
-        args = config.args or {},
-        cwd = config.cwd or "${workspaceFolder}",
-        stopAtEntry = config.stopAtEntry or false,
-        environment = config.environment or {},
-        externalConsole = config.externalConsole or false,
-        MIMode = config.MIMode or "gdb",
-        miDebuggerPath = config.miDebuggerPath or "/usr/bin/gdb",
-        setupCommands = config.setupCommands or {
+        request = "launch",
+        program = "${workspaceFolder}/build/main",
+        args = {},
+        cwd =  "${workspaceFolder}",
+        stopAtEntry = false,
+        environment = {},
+        externalConsole = false,
+        MIMode = "gdb",
+        miDebuggerPath = "/usr/bin/gdb",
+        setupCommands = {
           {
             description = "Enable pretty printing",
             text = "-enable-pretty-printing",
@@ -57,7 +52,27 @@ local function load_vscode_launch_json()
   end
 end
 
-load_vscode_launch_json()
+-- load_vscode_launch_json()
+table.insert(dap.configurations.cpp, {
+  name = "(gdb) Launch",
+  type = "cppdbg",
+  request = "launch",
+  program = "${workspaceFolder}/build/main",
+  args = {},
+  cwd =  "${fileDirname}",
+  stopAtEntry = false,
+  environment = {},
+  externalConsole = false,
+  MIMode = "gdb",
+  miDebuggerPath = "/usr/bin/gdb",
+  setupCommands = {
+    {
+      description = "Enable pretty printing",
+      text = "-enable-pretty-printing",
+      ignoreFailures = false,
+    }
+  }
+})
 ConfigSet = 0
 function Start_default_debugger()
   if ConfigSet == 1 then
