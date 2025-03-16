@@ -1,3 +1,6 @@
+--- Insert Mode
+vim.keymap.set('i', '<C-z>', '<C-o>:undo<CR>', { noremap = true, silent = true })
+
 --- Comment
 vim.keymap.set({ 'n', 'i' }, '<C-/>', '<esc>:Commentary<CR>', { noremap = true, silent = true })
 vim.keymap.set('v', '<C-/>', ':Commentary<CR>gv', { noremap = true, silent = true })
@@ -86,6 +89,7 @@ vim.keymap.set('i', '<C-a>', 'copilot#Accept("\\<CR>")', {
   expr = true,
   replace_keycodes = false
 })
+
 
 vim.keymap.set('n', '<C-a>', ':%y+<CR>', { noremap = true, silent = true })
 vim.cmd('noremap q: :')
