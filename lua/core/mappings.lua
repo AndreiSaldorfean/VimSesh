@@ -100,3 +100,18 @@ vim.cmd('noremap q/ /')
 -- BARBAR
 vim.keymap.set({ 'n' }, '<S-h>', ':bp<cr>', { noremap = true, silent = true })
 vim.keymap.set({ 'n' }, '<S-l>', ':bn<cr>', { noremap = true, silent = true })
+
+--Terminal
+local Terminal = require("toggleterm.terminal").Terminal
+
+local float_term = Terminal:new({
+  direction = "float",
+  hidden = true,
+  on_open = function(term)
+    vim.cmd("startinsert!")
+  end,
+})
+
+vim.keymap.set({ "n", "i", "t" }, "<leader>q", function()
+  float_term:toggle()
+end, { noremap = true, silent = true })
