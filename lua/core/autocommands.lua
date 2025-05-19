@@ -19,12 +19,12 @@ end
 --========================================================
 --                       AUTO COMMANDS
 --========================================================
-vim.api.nvim_create_autocmd("VimLeavePre", {
-  callback = function()
-    vim.cmd("Neotree close")
-    vim.cmd("lua require('dapui').close()")
-  end,
-})
+-- vim.api.nvim_create_autocmd("VimLeavePre", {
+--   callback = function()
+--     vim.cmd("Neotree close")
+--     vim.cmd("lua require('dapui').close()")
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function()

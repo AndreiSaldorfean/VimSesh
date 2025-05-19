@@ -65,15 +65,15 @@ require('vscode').setup({
 -- load the theme without affecting devicon colors.
 vim.cmd.colorscheme "vscode"
 
-vim.api.nvim_create_autocmd("LspTokenUpdate", {
-  callback = function(args)
-    local token = args.data.token
-    if token.type == "variable" and token.modifiers.globalScope and not token.modifiers.readonly then
-      vim.api.nvim_set_hl(0, 'GlobalVarHL', { fg = '#3b9aa3' })
-      vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, 'GlobalVarHL')
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("LspTokenUpdate", {
+--   callback = function(args)
+--     local token = args.data.token
+--     if token.type == "variable" and token.modifiers.globalScope and not token.modifiers.readonly then
+--       vim.api.nvim_set_hl(0, 'GlobalVarHL', { fg = '#3b9aa3' })
+--       vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, 'GlobalVarHL')
+--     end
+--   end,
+-- })
 
 vim.cmd([[
   highlight NeoTreeGitIgnored guifg=#7f8c8c
