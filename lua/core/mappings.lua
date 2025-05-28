@@ -17,7 +17,7 @@ vim.keymap.set('n', '<C-p>', ':FzfLua files<cr>', { noremap = true, silent = tru
 ----Git signs
 vim.keymap.set({ 'n', 'v' }, '<S-s>',     '<ESC>:Gitsigns stage_hunk<CR>',      { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<S-f>',     '<ESC>:Gitsigns preview_hunk_inline<CR>',    { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>e', '<ESC>:Neotree toggle<CR>',           { noremap = true, silent = true })
+-- vim.keymap.set({ 'n', 'v' }, '<leader>e', '<ESC>:Neotree toggle<CR>',           { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<F1>',      '<ESC>:SessionLoad<CR>',              { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>r', '<ESC>:DiffviewOpen<CR>',             { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>t', '<ESC>:DiffviewClose<CR>',            { noremap = true, silent = true })

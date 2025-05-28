@@ -368,40 +368,40 @@ require("lazy").setup({
         build = "make install_jsregexp"
     },
     -- File explorer
-    {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v3.x",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-            "MunifTanjim/nui.nvim",
-        },
-        config = function()
-            require("neo-tree").setup({
-                default_component_configs = {
-                    icon = {
-                        folder_closed = "", -- Icon for closed folder
-                        folder_open = "", -- Icon for open folder
-                    },
-                },
-                filesystem = {
-                    follow_current_file = {
-                        enabled = true
-                    },                            -- Automatically select the file in the tree
-                    hijack_netrw_behavior = "open_default", -- This ensures it hijacks netrw
-                    use_libuv_file_watcher = true, -- This helps with automatically updating the tree
-                    filtered_items = {
-                        hide_dotfiles = false,
-                        hide_gitignored = false,
-                    },
-                    hide_by_name = {
-                        --"node_modules"
-                    },
-                    always_show = { ".gitignore" }
-                }
-            })
-        end
-    },
+    --{
+    --    "nvim-neo-tree/neo-tree.nvim",
+    --    branch = "v3.x",
+    --    dependencies = {
+    --        "nvim-lua/plenary.nvim",
+    --        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+    --        "MunifTanjim/nui.nvim",
+    --    },
+    --    config = function()
+    --        require("neo-tree").setup({
+    --            default_component_configs = {
+    --                icon = {
+    --                    folder_closed = "", -- Icon for closed folder
+    --                    folder_open = "", -- Icon for open folder
+    --                },
+    --            },
+    --            filesystem = {
+    --                follow_current_file = {
+    --                    enabled = true
+    --                },                            -- Automatically select the file in the tree
+    --                hijack_netrw_behavior = "open_default", -- This ensures it hijacks netrw
+    --                use_libuv_file_watcher = true, -- This helps with automatically updating the tree
+    --                filtered_items = {
+    --                    hide_dotfiles = false,
+    --                    hide_gitignored = false,
+    --                },
+    --                hide_by_name = {
+    --                    --"node_modules"
+    --                },
+    --                always_show = { ".gitignore" }
+    --            }
+    --        })
+    --    end
+    --},
     -- {
     --   "folke/noice.nvim",
     --   config = function()
@@ -412,7 +412,7 @@ require("lazy").setup({
     -- },
     -- COLORSCHEME
     {
-        'Mofiqul/vscode.nvim',
+         'Mofiqul/vscode.nvim',
         lazy = false,
         priority = 1000,
         config = function()

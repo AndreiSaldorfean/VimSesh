@@ -25,11 +25,22 @@ for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
   vim.api.nvim_set_hl(0, group, {})
 end
 
--- You can also configure the signs displayed in the sign column
-vim.fn.sign_define("DiagnosticSignError", {text = "X", numhl = "DiagnosticError"})
-vim.fn.sign_define("DiagnosticSignWarn", {text = "⚠", numhl = "DiagnosticWarn"})
-vim.fn.sign_define("DiagnosticSignInfo", {text = "i", numhl = "DiagnosticInfo"})
-vim.fn.sign_define("DiagnosticSignHint", {text = "!", numhl = "DiagnosticHint"})
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = 'X',
+            [vim.diagnostic.severity.WARN] = '⚠',
+            [vim.diagnostic.severity.INFO] = 'i',
+            [vim.diagnostic.severity.HINT] = '?',
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = 'DiagnosticError',
+            [vim.diagnostic.severity.WARN] = 'DiagnosticWarn',
+            [vim.diagnostic.severity.INFO] = 'DiagnosticInfo',
+            [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
+        }
+    }
+})
 
 local c = require('vscode.colors').get_colors()
 require('vscode').setup({
