@@ -24,15 +24,15 @@ require('mason-lspconfig').setup({
 })
 
 -- C/C++ LSP
-local lspconfig = require('lspconfig')
-lspconfig.clangd.setup {
-    on_attach = function(client, bufnr)
-        if client.server_capabilities.semanticTokensProvider then
-            vim.lsp.semantic_tokens.start(bufnr, client.id)
-        end
-    end,
-    cmd = { 'clangd', '--background-index', '--clang-tidy', '--completion-style=detailed', '--fallback-style=llvm' },
-    init_options = {
-        fallback_flags = { '-std=c++17' },
-    }
-}
+-- local lspconfig = require('lspconfig')
+-- lspconfig.clangd.setup {
+--     on_attach = function(client, bufnr)
+--         if client.server_capabilities.semanticTokensProvider then
+--             vim.lsp.semantic_tokens.start(bufnr, client.id)
+--         end
+--     end,
+--     cmd = { 'clangd', '--background-index', '--clang-tidy', '--completion-style=detailed', '--fallback-style=llvm' },
+--     init_options = {
+--         fallback_flags = { '-std=c++17' },
+--     }
+-- }

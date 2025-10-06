@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
     if vim.v.shell_error ~= 0 then
         vim.api.nvim_echo({
-            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+a           { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
             { out,                            "WarningMsg" },
             { "\nPress any key to exit..." },
         }, true, {})
@@ -18,10 +18,6 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
-    {
-        "github/copilot.vim",
-        event = "InsertEnter",
-    },
     -- Lazy.nvim
     {
         "akinsho/toggleterm.nvim",
@@ -75,93 +71,44 @@ require("lazy").setup({
             },
         },
     },
-    -- install with yarn or npm
     {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        build = "cd app && yarn install",
-        init = function()
-            vim.g.mkdp_filetypes = { "markdown" }
-        end,
-        ft = { "markdown" },
-    },
-    {
-        'ThePrimeagen/vim-be-good'
-    },
-    {
-        'sindrets/diffview.nvim',
+        "xiyaowong/transparent.nvim",
         config = function()
-            require("diffview").setup({
-                enhanced_diff_hl = true,
+            -- Optional, you don't have to run setup.
+            require("transparent").setup({
+                -- table: default groups
+                groups = {
+                    'Normal',
+                    'NormalNC',
+                    'Comment',
+                    'Constant',
+                    'Special',
+                    'Identifier',
+                    'Statement',
+                    'PreProc',
+                    'Type',
+                    'Underlined',
+                    'Todo',
+                    'String',
+                    'Function',
+                    'Conditional',
+                    'Repeat',
+                    'Operator',
+                    'Structure',
+                    'LineNr',
+                    'NonText',
+                    'SignColumn',
+                    -- 'CursorLine',
+                    -- 'CursorLineNr',
+                    'StatusLine',
+                    'EndOfBuffer',
+                    'WinSeparator'
+                },
+                extra_groups = {},
+                exclude_groups = {},
+                on_clear = function() end,
             })
-        end
-    },
-    {
-        "tpope/vim-fugitive",
-        cmd = { "Git", "G", "Gread", "Gwrite", "Gdiffsplit", "Gvdiffsplit", "Gclog" }, -- Lazy-load on commands
-        keys = {
-            { "<leader>gs", "<cmd>Git<cr>", desc = "Git status" },                 -- Shortcut for Git status
-        },
-        config = function()
-            -- Optional: Additional settings or keymaps for Fugitive
-            vim.keymap.set("n", "<leader>gb", ":Git blame<CR>", { desc = "Git blame" })
-        end,
-    },
-    {
-        "rbong/vim-flog",
-        lazy = true,
-        cmd = { "Flog", "Flogsplit", "Floggit" },
-        dependencies = {
-            "tpope/vim-fugitive", },
-    },
-    -- {
-    --     "xiyaowong/transparent.nvim",
-    --     config = function()
-    --         -- Optional, you don't have to run setup.
-    --         require("transparent").setup({
-    --             -- table: default groups
-    --             groups = {
-    --                 'Normal',
-    --                 'NormalNC',
-    --                 'Comment',
-    --                 'Constant',
-    --                 'Special',
-    --                 'Identifier',
-    --                 'Statement',
-    --                 'PreProc',
-    --                 'Type',
-    --                 'Underlined',
-    --                 'Todo',
-    --                 'String',
-    --                 'Function',
-    --                 'Conditional',
-    --                 'Repeat',
-    --                 'Operator',
-    --                 'Structure',
-    --                 'LineNr',
-    --                 'NonText',
-    --                 'SignColumn',
-    --                 -- 'CursorLine',
-    --                 -- 'CursorLineNr',
-    --                 'StatusLine',
-    --                 'EndOfBuffer',
-    --                 'WinSeparator'
-    --             },
-    --             extra_groups = {},
-    --             exclude_groups = {},
-    --             on_clear = function() end,
-    --         })
-    --         require("transparent").clear()
-    --     end
-    -- },
-    {
-        "paopaol/cmp-doxygen",
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-            "nvim-treesitter/nvim-treesitter-textobjects"
-        },
-        config = function()
-            require "cmp".setup({ sources = { name = "doxygen" } })
+            -- require("transparent").clear()
         end
     },
     {
@@ -214,33 +161,6 @@ require("lazy").setup({
             vim.keymap.set('n', '<Leader>t', require('whitespace-nvim').trim)
         end
     },
-    --Debugger
-    {
-        "mfussenegger/nvim-dap",
-        config = function()
-            local dap = require("dap")
-            -- Configure your debug adapters here
-            -- https://github.com/mfussenegger/nvim-dap/blob/master/doc/dap.txt
-        end,
-    },
-    {
-        "miroshQa/debugmaster.nvim",
-        config = function()
-            local dm = require("debugmaster")
-            -- make sure you don't have any other keymaps that starts with "<leader>d" to avoid delay
-            vim.keymap.set({ "n", "v" }, "<leader>d", dm.mode.toggle, { nowait = true })
-            vim.keymap.set("t", "<C-/>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-        end
-    },
-    -- Faster motions
-    {
-        'phaazon/hop.nvim',
-        branch = 'v2', -- optional but strongly recommended
-        config = function()
-            -- you can configure Hop the way you like here; see :h hop-config
-            require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-        end
-    },
     -- Backline
     {
         "lukas-reineke/indent-blankline.nvim",
@@ -267,26 +187,12 @@ require("lazy").setup({
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate', -- Ensure treesitter is installed and updated
-        config = function()
-            require('nvim-treesitter.configs').setup {
-                -- Treesitter configs
-                ensure_installed = { "cpp", "c", "lua", "python", "javascript" }, -- Add the languages you need
-                highlight = {
-                    enable = true,                                        -- false will disable the whole extension
-                },
-            }
-        end
     },
     -- AUTO PAIRS
     {
         'windwp/nvim-autopairs',
         event = "InsertEnter",
         config = true
-    },
-    -- Comments
-    {
-        "tpope/vim-commentary",
-        event = "VeryLazy",
     },
     -- GITSIGNS
     {
@@ -368,48 +274,40 @@ require("lazy").setup({
         build = "make install_jsregexp"
     },
     -- File explorer
-    --{
-    --    "nvim-neo-tree/neo-tree.nvim",
-    --    branch = "v3.x",
-    --    dependencies = {
-    --        "nvim-lua/plenary.nvim",
-    --        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-    --        "MunifTanjim/nui.nvim",
-    --    },
-    --    config = function()
-    --        require("neo-tree").setup({
-    --            default_component_configs = {
-    --                icon = {
-    --                    folder_closed = "", -- Icon for closed folder
-    --                    folder_open = "", -- Icon for open folder
-    --                },
-    --            },
-    --            filesystem = {
-    --                follow_current_file = {
-    --                    enabled = true
-    --                },                            -- Automatically select the file in the tree
-    --                hijack_netrw_behavior = "open_default", -- This ensures it hijacks netrw
-    --                use_libuv_file_watcher = true, -- This helps with automatically updating the tree
-    --                filtered_items = {
-    --                    hide_dotfiles = false,
-    --                    hide_gitignored = false,
-    --                },
-    --                hide_by_name = {
-    --                    --"node_modules"
-    --                },
-    --                always_show = { ".gitignore" }
-    --            }
-    --        })
-    --    end
-    --},
-    -- {
-    --   "folke/noice.nvim",
-    --   config = function()
-    --     require("noice").setup({
-    --     })
-    --   end,
-    --   event = "VeryLazy",
-    -- },
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+        },
+        config = function()
+            require("neo-tree").setup({
+                default_component_configs = {
+                    icon = {
+                        folder_closed = "", -- Icon for closed folder
+                        folder_open = "", -- Icon for open folder
+                    },
+                },
+                filesystem = {
+                    follow_current_file = {
+                        enabled = true
+                    },                            -- Automatically select the file in the tree
+                    hijack_netrw_behavior = "open_default", -- This ensures it hijacks netrw
+                    use_libuv_file_watcher = true, -- This helps with automatically updating the tree
+                    filtered_items = {
+                        hide_dotfiles = false,
+                        hide_gitignored = false,
+                    },
+                    hide_by_name = {
+                        --"node_modules"
+                    },
+                    always_show = { ".gitignore" }
+                }
+            })
+        end
+    },
     -- COLORSCHEME
     {
          'Mofiqul/vscode.nvim',
