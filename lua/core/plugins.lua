@@ -24,6 +24,7 @@ require("lazy").setup({
         version = "*",
         config = function()
             require("toggleterm").setup {
+                shell = vim.o.shell,
                 direction = "float",
                 float_opts = {
                     border = "curved",

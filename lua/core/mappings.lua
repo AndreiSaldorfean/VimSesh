@@ -82,6 +82,7 @@ local Terminal = require("toggleterm.terminal").Terminal
 local float_term = Terminal:new({
   direction = "float",
   hidden = true,
+  vim.o.shell,
   on_open = function(term)
     vim.cmd("startinsert!")
   end,
