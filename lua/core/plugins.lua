@@ -260,9 +260,10 @@ require("lazy").setup({
     },
     -- LSP
     {
-    --   "onsails/lspkind.nvim",
-    'williamboman/mason.nvim',
-    --   'hrsh7th/nvim-cmp',
+        'williamboman/mason.nvim',
+        config = function()
+            require('mason').setup()
+        end
     },
     -- File explorer
     {
