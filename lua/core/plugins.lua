@@ -18,6 +18,13 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
+    -- Code folding
+    {
+        'kevinhwang91/nvim-ufo',
+    },
+    {
+        'kevinhwang91/promise-async'
+    },
     -- Lazy.nvim
     {
         "akinsho/toggleterm.nvim",
@@ -188,6 +195,23 @@ require("lazy").setup({
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate', -- Ensure treesitter is installed and updated
+        config = function()
+            require('nvim-treesitter.configs').setup({
+                ensure_installed = { "lua", "python", "javascript", "typescript", "html", "css", "json", "yaml", "markdown", "bash", "c", "cpp" },
+                sync_install = false,
+                auto_install = true,
+                highlight = {
+                    enable = true,
+                    additional_vim_regex_highlighting = false,
+                },
+                fold = {
+                    enable = true,
+                },
+                indent = {
+                    enable = true,
+                },
+            })
+        end
     },
     -- AUTO PAIRS
     {

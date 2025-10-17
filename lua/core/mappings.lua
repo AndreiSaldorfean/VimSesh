@@ -65,6 +65,8 @@ vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev({severity = vim.dia
   { noremap = true, silent = true })
 vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<cr>',
   { noremap = true, silent = true })
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
 vim.keymap.set('n', '<C-a>', ':%y+<CR>', { noremap = true, silent = true })
 vim.cmd('noremap q: :')

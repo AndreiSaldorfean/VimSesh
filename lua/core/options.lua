@@ -4,10 +4,10 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
 -- Folds
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.o.foldcolumn = '1' -- '0' is not bad
 vim.opt.foldlevel = 99
 vim.opt.foldenable = true
+vim.opt.foldlevelstart = 99
 
 vim.cmd("let g:netrw_liststyle = 3")
 
