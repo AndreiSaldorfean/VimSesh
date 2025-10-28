@@ -18,6 +18,18 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
+    {
+        "CopilotC-Nvim/CopilotChat.nvim",
+        dependencies = {
+        {
+            "nvim-lua/plenary.nvim", branch = "master" },
+        },
+        build = "make tiktoken",
+        opts =
+        {
+            -- See Configuration section for options
+        },
+    },
     -- Code folding
     {
         'kevinhwang91/nvim-ufo',
