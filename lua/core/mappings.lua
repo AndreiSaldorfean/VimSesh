@@ -76,8 +76,8 @@ vim.cmd('noremap q/ /')
 vim.keymap.set("n", "<C-z>", "<Nop>", { noremap = true, silent = true })
 
 -- BARBAR
-vim.keymap.set({ 'n' }, '<S-h>', ':bp<cr>', { noremap = true, silent = true })
-vim.keymap.set({ 'n' }, '<S-l>', ':bn<cr>', { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<S-h>', ':BufferPrevious<cr>', { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<S-l>', ':BufferNext<cr>', { noremap = true, silent = true })
 
 --Terminal
 local Terminal = require("toggleterm.terminal").Terminal
