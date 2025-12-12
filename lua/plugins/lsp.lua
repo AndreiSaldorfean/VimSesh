@@ -1,6 +1,7 @@
 vim.lsp.enable('clangd')
 vim.lsp.enable('pylsp')
 vim.lsp.enable('lua_ls')
+vim.lsp.enable('neocmake')
 
 -- C/C++ LSP
 vim.lsp.config.clangd = {
@@ -62,6 +63,14 @@ vim.lsp.config.lua_ls = {
     },
 }
 
+-- CMake LSP (neocmakelsp uses 'stdio' as a subcommand)
+vim.lsp.config.neocmake = {
+    name = "neocmake",
+    cmd = { 'neocmakelsp', 'stdio' },
+    filetypes = { 'cmake' },
+    root_markers = { 'CMakePresets.json', 'CTestConfig.cmake', '.git', 'build', 'cmake' },
+}
+
 -- Tell the server the capability of foldingRange,
 -- Neovim hasn't added foldingRange to default capabilities, users must add it manually
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -69,11 +78,48 @@ capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,
     lineFoldingOnly = true
 }
-local language_servers = vim.lsp.get_clients() -- or list servers manually like {'gopls', 'clangd'}
-for _, ls in ipairs(language_servers) do
-    require('lspconfig')[ls].setup({
-        capabilities = capabilities
-        -- you can add other fields for setting up lsp server in this table
-    })
+
+-- Auto-configure all Mason-installed LSPs
+local mason_ok, mason = pcall(require, "mason")
+if mason_ok then
+    mason.setup()
 end
+
+local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+
+if mason_lspconfig_ok then
+    -- Setup mason-lspconfig
+    mason_lspconfig.setup({
+        ensure_installed = {
+            "clangd",
+            "pylsp",
+            "lua_ls",
+        },
+        automatic_installation = true,
+    })
+
+    -- Get list of installed servers from mason-lspconfig
+    local installed_servers = mason_lspconfig.get_installed_servers()
+
+    -- Servers that are manually configured via vim.lsp.config above
+    local manual_servers = { "clangd", "pylsp", "lua_ls", "neocmake" }
+
+    -- Auto-setup all installed servers except the manually configured ones
+    for _, server_name in ipairs(installed_servers) do
+        local is_manual = false
+        for _, manual in ipairs(manual_servers) do
+            if server_name == manual then
+                is_manual = true
+                break
+            end
+        end
+
+        if not is_manual then
+            -- Simply enable the LSP using vim.lsp.enable (new API)
+            -- vim.lsp.enable will use sensible defaults automatically
+            vim.lsp.enable(server_name)
+        end
+    end
+end
+
 require('ufo').setup()

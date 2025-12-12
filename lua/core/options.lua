@@ -42,7 +42,7 @@ opt.signcolumn = "yes"
 opt.backspace = "indent,eol,start"
 
 -- clipboard
-opt.clipboard:append("unnamedplus")
+vim.opt.clipboard = "unnamedplus"
 
 -- splitting windows
 opt.splitright = true

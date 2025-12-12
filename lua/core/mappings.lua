@@ -1,14 +1,11 @@
---- Comment
--- vim.keymap.set({ 'n', 'i' }, '<C-/>', '<esc>:Commentary<CR>', { noremap = true, silent = true })
--- vim.keymap.set('v', '<C-/>', ':Commentary<CR>gv', { noremap = true, silent = true })
--- vim.keymap.set({ 'n', 'i' }, '<C-_>', '<esc>:Commentary<CR>', { noremap = true, silent = true })
--- vim.keymap.set('v', '<C-_>', ':Commentary<CR>gv', { noremap = true, silent = true })
-
 ---- ESCAPE
 vim.keymap.set('t', '<esc>', '<C-\\><C-n>', { noremap = true, silent = true })
 
 ---- Remove highlight
 vim.keymap.set({ 'n', 'v' }, '<leader>h', '<ESC>:nohl<CR>', { noremap = true, silent = true })
+
+
+vim.keymap.set({ 'n', 'v' }, '!', '<ESC>#*zz', { noremap = true, silent = true })
 
 ----Telescope
 vim.keymap.set({ 'n', 'v' }, '<leader>f', ':FzfLua grep_project<CR>', { noremap = true, silent = true })
@@ -45,12 +42,8 @@ vim.keymap.set('v', '<A-Up>',   ':m \'<-2<CR>gv',    { noremap = true, silent = 
 vim.keymap.set('v', '<A-Down>', ':m \'>+1<CR>gv',    { noremap = true, silent = true })
 vim.keymap.set('n', '<S-q>',    ':BufferClose<cr>',  { noremap = true, silent = true })
 
--- Hop
-vim.keymap.set('n', 'f', ":HopChar1<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', 't', ":HopPattern<CR>", { noremap = true, silent = true })
-
 -- LSP
-vim.keymap.set('n', '<A-o>', ':ClangdSwitchSourceHeader<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-o>', ':Ouroboros<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'R', '<cmd>lua vim.lsp.buf.rename()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', { noremap = true, silent = true })

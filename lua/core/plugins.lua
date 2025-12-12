@@ -18,17 +18,18 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
+
     {
-        "CopilotC-Nvim/CopilotChat.nvim",
-        dependencies = {
-        {
-            "nvim-lua/plenary.nvim", branch = "master" },
-        },
-        build = "make tiktoken",
-        opts =
-        {
-            -- See Configuration section for options
-        },
+        "mg979/vim-visual-multi"
+    },
+    {
+        "godlygeek/tabular",
+        cmd = {"Tabularize"}
+    },
+    -- Switch between source and header c/c++
+    {
+        'nvim-lua/plenary.nvim',
+        'jakemason/ouroboros'
     },
     -- Code folding
     {
@@ -298,9 +299,13 @@ require("lazy").setup({
     -- LSP
     {
         'williamboman/mason.nvim',
-        config = function()
-            require('mason').setup()
-        end
+    },
+    {
+        'williamboman/mason-lspconfig.nvim',
+        dependencies = {
+            'williamboman/mason.nvim',
+            'neovim/nvim-lspconfig',
+        },
     },
     -- File explorer
     {

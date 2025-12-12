@@ -123,6 +123,7 @@ vim.api.nvim_set_hl(0, "DiffviewDiffAddAsDelete", { bg = "#401411"})
 vim.api.nvim_set_hl(0, "CursorLine", { bg = "#383838" })
 vim.api.nvim_set_hl(0, 'NeoTreeIndentMarker', { fg = '#454545', bg='none'})
 vim.api.nvim_set_hl(0, 'IndentBlanklineContextChar', { fg = '#ff8800', bg='none' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg='#7f848a', bold=true })
 
 vim.opt.fillchars:append { diff = "╱" }
 --vim.api.nvim_set_hl(0, "FlogMergeCommit", { bg = "#401411"})
