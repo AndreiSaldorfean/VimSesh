@@ -4,20 +4,28 @@ vim.keymap.set('t', '<esc>', '<C-\\><C-n>', { noremap = true, silent = true })
 ---- Remove highlight
 vim.keymap.set({ 'n', 'v' }, '<leader>h', '<ESC>:nohl<CR>', { noremap = true, silent = true })
 
+---- Harpoon
+vim.keymap.set({ 'n' }, '<leader>a', ':lua require("harpoon.mark").add_file()<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>q', ':lua require("harpoon.ui").toggle_quick_menu()<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>1', ':lua require("harpoon.ui").nav_file(1)<CR>',         { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>2', ':lua require("harpoon.ui").nav_file(2)<CR>',         { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>3', ':lua require("harpoon.ui").nav_file(3)<CR>',         { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>4', ':lua require("harpoon.ui").nav_file(4)<CR>',         { noremap = true, silent = true })
 
 vim.keymap.set({ 'n', 'v' }, '!', '<ESC>#*zz', { noremap = true, silent = true })
+
+-- Neotree
+vim.keymap.set({ 'n', 'v' }, '<leader>e', '<ESC>:Neotree toggle<CR>',           { noremap = true, silent = true })
 
 ----Telescope
 vim.keymap.set({ 'n', 'v' }, '<leader>f', ':FzfLua grep_project<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-p>', ':FzfLua files<cr>', { noremap = true, silent = true })
 
 ----Git signs
-vim.keymap.set({ 'n', 'v' }, '<S-s>',     '<ESC>:Gitsigns stage_hunk<CR>',      { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<S-f>',     '<ESC>:Gitsigns preview_hunk_inline<CR>',    { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>e', '<ESC>:Neotree toggle<CR>',           { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<F1>',      '<ESC>:SessionLoad<CR>',              { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>r', '<ESC>:DiffviewOpen<CR>',             { noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>t', '<ESC>:DiffviewClose<CR>',            { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>j', '<ESC>:Gitsigns next_hunk<CR>',     { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>k', '<ESC>:Gitsigns prev_hunk<CR>',     { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>r', '<ESC>:Gitsigns reset_hunk<CR>',    { noremap = true, silent = true })
+vim.keymap.set({ 'n' }, '<leader>p', '<ESC>:Gitsigns preview_hunk_inline<CR>',    { noremap = true, silent = true })
 
 -- Map <Tab> to indent and <S-Tab> to unindent in visual mode
 vim.keymap.set('v', '<Tab>', ">gv", { noremap = true, silent = true })
@@ -47,17 +55,12 @@ vim.keymap.set('n', '<A-o>', ':Ouroboros<cr>', { noremap = true, silent = true }
 vim.keymap.set('n', 'R', '<cmd>lua vim.lsp.buf.rename()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<cr>',
-  { noremap = true, silent = true })
-vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<cr>',
-  { noremap = true, silent = true })
+
+-- Folding
 vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
 vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
@@ -66,7 +69,7 @@ vim.cmd('noremap q: :')
 vim.cmd('noremap <S-Down> j')
 vim.cmd('noremap <S-Up> k')
 vim.cmd('noremap q/ /')
-vim.keymap.set("n", "<C-z>", "<Nop>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-z>", ":undo<CR>", { noremap = true, silent = true })
 
 -- BARBAR
 vim.keymap.set({ 'n' }, '<S-h>', ':BufferPrevious<cr>', { noremap = true, silent = true })
@@ -86,9 +89,3 @@ local float_term = Terminal:new({
 vim.keymap.set({ "n", "i", "t" }, "<C-f>", function()
   float_term:toggle()
 end, { noremap = true, silent = true })
-
--- Copilot
-vim.g.copilot_no_tab_map = true
-vim.api.nvim_set_keymap("i", "<C-o>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
-vim.keymap.set("n", "<C-i>", "<C-i>", { noremap = true })
-
