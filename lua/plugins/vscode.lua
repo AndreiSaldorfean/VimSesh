@@ -1,5 +1,47 @@
 -- Lua: For dark theme (neovim's default)
 vim.o.background = 'dark'
+
+local links = {
+  ['@lsp.type.namespace'] = '@namespace',
+  ['@lsp.type.type'] = '@type',
+  ['@lsp.type.class'] = '@type',
+  ['@lsp.type.enum'] = '@type',
+  ['@lsp.type.interface'] = '@type',
+  ['@lsp.type.struct'] = '@structure',
+  ['@lsp.type.parameter'] = '@parameter',
+  ['@lsp.type.variable'] = '@variable',
+  ['@lsp.type.property'] = '@property',
+  ['@lsp.type.enumMember'] = '@constant',
+  ['@lsp.type.function'] = '@function',
+  ['@lsp.type.method'] = '@method',
+  ['@lsp.type.macro'] = '@macro',
+  ['@lsp.type.decorator'] = '@function',
+}
+for newgroup, oldgroup in pairs(links) do
+  vim.api.nvim_set_hl(0, newgroup, { link = oldgroup, default = true })
+end
+
+for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+  vim.api.nvim_set_hl(0, group, {})
+end
+
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = 'X',
+            [vim.diagnostic.severity.WARN] = '⚠',
+            [vim.diagnostic.severity.INFO] = 'i',
+            [vim.diagnostic.severity.HINT] = '?',
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = 'DiagnosticError',
+            [vim.diagnostic.severity.WARN] = 'DiagnosticWarn',
+            [vim.diagnostic.severity.INFO] = 'DiagnosticInfo',
+            [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
+        }
+    }
+})
+
 local c = require('vscode.colors').get_colors()
 require('vscode').setup({
   -- Alternatively set style in setup
@@ -34,15 +76,15 @@ require('vscode').setup({
 -- load the theme without affecting devicon colors.
 vim.cmd.colorscheme "vscode"
 
-vim.api.nvim_create_autocmd("LspTokenUpdate", {
-  callback = function(args)
-    local token = args.data.token
-    if token.type == "variable" and token.modifiers.globalScope and not token.modifiers.readonly then
-      vim.api.nvim_set_hl(0, 'GlobalVarHL', { fg = '#3b9aa3' })
-      vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, 'GlobalVarHL')
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("LspTokenUpdate", {
+--   callback = function(args)
+--     local token = args.data.token
+--     if token.type == "variable" and token.modifiers.globalScope and not token.modifiers.readonly then
+--       vim.api.nvim_set_hl(0, 'GlobalVarHL', { fg = '#3b9aa3' })
+--       vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, 'GlobalVarHL')
+--     end
+--   end,
+-- })
 
 vim.cmd([[
   highlight NeoTreeGitIgnored guifg=#7f8c8c
@@ -66,6 +108,23 @@ vim.api.nvim_set_hl(0, "DiffviewFilePanelInsertions", { fg = '#e2b968' })
 vim.api.nvim_set_hl(0, "DiffviewFilePanelDeletions", { fg = '#e44b4b' })
 vim.api.nvim_set_hl(0, "DiffviewStatusUntracked", { fg = '#50b791' })
 vim.api.nvim_set_hl(0, "DiffviewFolderName", { fg = '#d4d4d4' })
-vim.api.nvim_set_hl(0, 'Folded', { fg = '#7d97b0',bg = "#202d39" })
-vim.api.nvim_set_hl(0, 'NeoTreeIndentMarker', { fg = '#454545'})
+vim.api.nvim_set_hl(0, 'Folded', { fg = '#7d97b0'})
+vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#D787AF'})
+vim.api.nvim_set_hl(0, 'GitSignsChange', { fg = '#156ab0'})
+vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = "#454545", bg = "none"})
+vim.api.nvim_set_hl(0, "BufferTabpageFill", { fg = "none", bg = "#222222"})
+vim.api.nvim_set_hl(0, "BufferTabpageFill", { fg = "none", bg = "#222222"})
+vim.api.nvim_set_hl(0, "EndOfBuffer", { fg = "#454545", bg = "none"})
+vim.api.nvim_set_hl(0, "DiffviewDiffDelete", { fg = "#454545", bg = "none"})
+vim.api.nvim_set_hl(0, "DiffviewDiffDeleteDim", { fg = "#454545", bg = "none"})
+vim.api.nvim_set_hl(0, "DiffviewDiffText", { bg = "#095954"})
+vim.api.nvim_set_hl(0, "DiffviewDiffChange", { bg = "#133138"})
+vim.api.nvim_set_hl(0, "DiffviewDiffAddAsDelete", { bg = "#401411"})
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#383838" })
+vim.api.nvim_set_hl(0, 'NeoTreeIndentMarker', { fg = '#454545', bg='none'})
+vim.api.nvim_set_hl(0, 'IndentBlanklineContextChar', { fg = '#ff8800', bg='none' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg='#7f848a', bold=true })
+
+vim.opt.fillchars:append { diff = "╱" }
+--vim.api.nvim_set_hl(0, "FlogMergeCommit", { bg = "#401411"})
 
