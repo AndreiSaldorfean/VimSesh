@@ -125,6 +125,12 @@ vim.api.nvim_set_hl(0, 'NeoTreeIndentMarker', { fg = '#454545', bg='none'})
 vim.api.nvim_set_hl(0, 'IndentBlanklineContextChar', { fg = '#ff8800', bg='none' })
 vim.api.nvim_set_hl(0, 'LineNr', { fg='#7f848a', bold=true })
 
+vim.cmd('highlight! HarpoonInactive guibg=NONE guifg=#63698c')
+vim.cmd('highlight! HarpoonActive guibg=NONE guifg=white')
+vim.cmd('highlight! HarpoonNumberActive guibg=NONE guifg=#7aa2f7')
+vim.cmd('highlight! HarpoonNumberInactive guibg=NONE guifg=#7aa2f7')
+vim.cmd('highlight! TabLineFill guibg=NONE guifg=white')
+
 vim.opt.fillchars:append { diff = "╱" }
 --vim.api.nvim_set_hl(0, "FlogMergeCommit", { bg = "#401411"})
 

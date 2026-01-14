@@ -1,9 +1,3 @@
--- Trouble
-local config = require("fzf-lua.config")
-local actions = require("trouble.sources.fzf").actions
-config.defaults.actions.files["ctrl-t"] = actions.open
--- Trouble
-
 vim.o.mouse = 'a'
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4

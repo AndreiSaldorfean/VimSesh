@@ -19,7 +19,35 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
     {
-        "ThePrimeagen/harpoon"
+        "ThePrimeagen/harpoon",
+        config = function()
+            require("harpoon").setup {
+                global_settings = {
+                    -- sets the marks upon calling `toggle` on the ui, instead of require `:w`.
+                    save_on_toggle = true,
+
+                    -- saves the harpoon file upon every change. disabling is unrecommended.
+                    save_on_change = true,
+
+                    -- sets harpoon to run the command immediately as it's passed to the terminal when calling `sendCommand`.
+                    enter_on_sendcmd = false,
+
+                    -- closes any tmux windows harpoon that harpoon creates when you close Neovim.
+                    tmux_autoclose_windows = false,
+
+                    -- filetypes that you want to prevent from adding to the harpoon list menu.
+                    excluded_filetypes = { "harpoon" },
+
+                    -- set marks specific to each git branch inside git repository
+                    mark_branch = false,
+
+                    -- enable tabline with harpoon marks
+                    tabline = false,
+                    tabline_prefix = " ",
+                    tabline_suffix = " ",
+                }
+            }
+        end
     },
     {
         "mg979/vim-visual-multi"
@@ -98,56 +126,6 @@ require("lazy").setup({
         "ibhagwan/fzf-lua",
         -- optional for icon support
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function()
-            -- calling `setup` is optional for customization
-            require("fzf-lua").setup({
-                fzf_opts = {
-                    ['--tiebreak'] = 'end'
-                },
-                winopts =
-                {
-                    -- height = 1,
-                    -- width = 1,
-                    fullscreen = true,
-
-                    preview = {
-                          -- default     = 'bat',           -- override the default previewer?
-                                                            -- default uses the 'builtin' previewer
-                          border         = "rounded",       -- preview border: accepts both `nvim_open_win`
-                                                            -- and fzf values (e.g. "border-top", "none")
-                                                            -- native fzf previewers (bat/cat/git/etc)
-                                                            -- can also be set to `fun(winopts, metadata)`
-                          wrap           = true,           -- preview line wrap (fzf's 'wrap|nowrap')
-                          hidden         = false,           -- start preview hidden
-                          vertical       = "down:45%",      -- up|down:size
-                          horizontal     = "right:20%",     -- right|left:size
-                          layout         = "horizontal",          -- horizontal|vertical|flex
-                          flip_columns   = 100,             -- #cols to switch to horizontal on flex
-                          -- Only used with the builtin previewer:
-                          title          = true,            -- preview border title (file/buf)?
-                          title_pos      = "right",        -- left|center|right, title alignment
-                          scrollbar      = "float",         -- `false` or string:'float|border'
-                                                            -- float:  in-window floating border
-                                                            -- border: in-border "block" marker
-                          scrolloff      = -1,              -- float scrollbar offset from right
-                                                            -- applies only when scrollbar = 'float'
-                          delay          = 20,              -- delay(ms) displaying the preview
-                                                            -- prevents lag on fast scrolling
-                          winopts = {                       -- builtin previewer window options
-                            number            = true,
-                            relativenumber    = false,
-                            cursorline        = true,
-                            cursorlineopt     = "both",
-                            cursorcolumn      = false,
-                            signcolumn        = "no",
-                            list              = false,
-                            foldenable        = true,
-                            foldmethod        = "manual",
-                          },
-                        },
-                }
-            })
-        end
     },
     {
         'johnfrankmorgan/whitespace.nvim',

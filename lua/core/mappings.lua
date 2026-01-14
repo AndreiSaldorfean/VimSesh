@@ -18,7 +18,7 @@ vim.keymap.set({ 'n', 'v' }, '!', '<ESC>#*zz', { noremap = true, silent = true }
 vim.keymap.set({ 'n', 'v' }, '<leader>e', '<ESC>:Neotree toggle<CR>',           { noremap = true, silent = true })
 
 ----Telescope
-vim.keymap.set({ 'n', 'v' }, '<leader>f', ':FzfLua grep_project<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>f', ':FzfLua live_grep<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-p>', ':FzfLua files<cr>', { noremap = true, silent = true })
 
 ----Git signs
