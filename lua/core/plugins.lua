@@ -18,7 +18,9 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
-
+    {
+        "ThePrimeagen/harpoon"
+    },
     {
         "mg979/vim-visual-multi"
     },
@@ -93,69 +95,6 @@ require("lazy").setup({
         },
     },
     {
-        "xiyaowong/transparent.nvim",
-        config = function()
-            -- Optional, you don't have to run setup.
-            require("transparent").setup({
-                -- table: default groups
-                groups = {
-                    'Normal',
-                    'NormalNC',
-                    'Comment',
-                    'Constant',
-                    'Special',
-                    'Identifier',
-                    'Statement',
-                    'PreProc',
-                    'Type',
-                    'Underlined',
-                    'Todo',
-                    'String',
-                    'Function',
-                    'Conditional',
-                    'Repeat',
-                    'Operator',
-                    'Structure',
-                    'LineNr',
-                    'NonText',
-                    'SignColumn',
-                    -- 'CursorLine',
-                    -- 'CursorLineNr',
-                    'StatusLine',
-                    'EndOfBuffer',
-                    'WinSeparator'
-                },
-                extra_groups = {},
-                exclude_groups = {},
-                on_clear = function() end,
-            })
-            -- require("transparent").clear()
-        end
-    },
-    {
-        'norcalli/nvim-colorizer.lua',
-        config = function()
-            require('colorizer').setup({})
-        end
-    },
-    {
-        "christoomey/vim-tmux-navigator",
-        cmd = {
-            "TmuxNavigateLeft",
-            "TmuxNavigateDown",
-            "TmuxNavigateUp",
-            "TmuxNavigateRight",
-            "TmuxNavigatePrevious",
-        },
-        keys = {
-            { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
-            { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
-            { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
-            { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
-            { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
-        }
-    },
-    {
         "ibhagwan/fzf-lua",
         -- optional for icon support
         dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -164,6 +103,48 @@ require("lazy").setup({
             require("fzf-lua").setup({
                 fzf_opts = {
                     ['--tiebreak'] = 'end'
+                },
+                winopts =
+                {
+                    -- height = 1,
+                    -- width = 1,
+                    fullscreen = true,
+
+                    preview = {
+                          -- default     = 'bat',           -- override the default previewer?
+                                                            -- default uses the 'builtin' previewer
+                          border         = "rounded",       -- preview border: accepts both `nvim_open_win`
+                                                            -- and fzf values (e.g. "border-top", "none")
+                                                            -- native fzf previewers (bat/cat/git/etc)
+                                                            -- can also be set to `fun(winopts, metadata)`
+                          wrap           = true,           -- preview line wrap (fzf's 'wrap|nowrap')
+                          hidden         = false,           -- start preview hidden
+                          vertical       = "down:45%",      -- up|down:size
+                          horizontal     = "right:20%",     -- right|left:size
+                          layout         = "horizontal",          -- horizontal|vertical|flex
+                          flip_columns   = 100,             -- #cols to switch to horizontal on flex
+                          -- Only used with the builtin previewer:
+                          title          = true,            -- preview border title (file/buf)?
+                          title_pos      = "right",        -- left|center|right, title alignment
+                          scrollbar      = "float",         -- `false` or string:'float|border'
+                                                            -- float:  in-window floating border
+                                                            -- border: in-border "block" marker
+                          scrolloff      = -1,              -- float scrollbar offset from right
+                                                            -- applies only when scrollbar = 'float'
+                          delay          = 20,              -- delay(ms) displaying the preview
+                                                            -- prevents lag on fast scrolling
+                          winopts = {                       -- builtin previewer window options
+                            number            = true,
+                            relativenumber    = false,
+                            cursorline        = true,
+                            cursorlineopt     = "both",
+                            cursorcolumn      = false,
+                            signcolumn        = "no",
+                            list              = false,
+                            foldenable        = true,
+                            foldmethod        = "manual",
+                          },
+                        },
                 }
             })
         end
@@ -197,12 +178,6 @@ require("lazy").setup({
                 scope = { enabled = false }
             }
         end,
-    },
-    -- Remember last session
-    {
-        "olimorris/persisted.nvim",
-        lazy = false, -- make sure the plugin is always loaded at startup
-        config = true
     },
     -- Tree-sitter for syntax highlighting and parsing
     {
@@ -238,11 +213,6 @@ require("lazy").setup({
     },
     {
         'neovim/nvim-lspconfig',
-        -- 'hrsh7th/cmp-nvim-lsp',
-        -- 'hrsh7th/cmp-buffer',
-        -- 'hrsh7th/cmp-path',
-        -- 'hrsh7th/cmp-cmdline',
-        -- 'hrsh7th/nvim-cmp'
     },
     {
         'saghen/blink.cmp',
@@ -351,7 +321,7 @@ require("lazy").setup({
             require('vscode').load()
         end,
     },
-    -- BARBAR
+    -- -- BARBAR
     {
         'romgrk/barbar.nvim',
         dependencies = {
