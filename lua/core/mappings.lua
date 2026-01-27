@@ -81,3 +81,33 @@ local float_term = Terminal:new({
 vim.keymap.set({ "n", "i", "t" }, "<C-f>", function()
   float_term:toggle()
 end, { noremap = true, silent = true })
+
+-- Go to file from compiler error (file.c:10:5 or file.c:10)
+vim.keymap.set('n', 'gf', function()
+  local line = vim.fn.getline('.')
+  local col = vim.fn.col('.')
+  
+  -- Extract file path with line and column numbers
+  local pattern = '([%w%.%-%_/]+%.%w+):(%d+):?(%d*)'
+  local file, line_num, col_num = line:match(pattern)
+  
+  if file then
+    -- Check if file exists
+    if vim.fn.filereadable(file) == 1 then
+      -- Close floating terminal if we're in it
+      if vim.bo.buftype == 'terminal' then
+        float_term:close()
+      end
+      
+      vim.cmd('edit ' .. file)
+      vim.fn.cursor(tonumber(line_num), col_num ~= '' and tonumber(col_num) or 1)
+      vim.cmd('normal! zz')
+      print('Opened ' .. file .. ':' .. line_num .. (col_num ~= '' and ':' .. col_num or ''))
+    else
+      print('File not found: ' .. file)
+    end
+  else
+    -- Fallback to default gf behavior
+    vim.cmd('normal! gf')
+  end
+end, { noremap = true, silent = true })
