@@ -372,8 +372,31 @@ function M.pick_marks()
   update_preview()
 end
 
+function M.jump_to_mark(index)
+  local project_marks = get_project_marks()
+  if #project_marks == 0 then
+    vim.notify("No marks in current project", vim.log.levels.WARN)
+    return
+  end
+  
+  local mark = project_marks[index]
+  if not mark then
+    vim.notify("Mark " .. index .. " does not exist", vim.log.levels.WARN)
+    return
+  end
+  
+  vim.cmd("edit " .. vim.fn.fnameescape(mark.file))
+  vim.api.nvim_win_set_cursor(0, { mark.row, mark.col })
+  vim.notify("Jumped to mark " .. index .. ": " .. mark.name, vim.log.levels.INFO)
+end
+
 vim.keymap.set("n", "<leader>am", M.add_mark, { desc = "Mark function (API)" })
 vim.keymap.set("n", "<leader>ap", M.pick_marks, { desc = "Pick API marks" })
 vim.keymap.set("n", "<leader>ad", M.remove_mark, { desc = "Remove mark at cursor" })
+
+-- Quick access keymaps
+for i = 1, 9 do
+  vim.keymap.set("n", "<leader>" .. i, function() M.jump_to_mark(i) end, { desc = "Jump to mark " .. i })
+end
 
 return M
