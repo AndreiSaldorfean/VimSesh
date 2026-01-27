@@ -233,6 +233,19 @@ function M.pick_marks()
     vim.api.nvim_buf_set_option(preview_buf, "modifiable", false)
     vim.api.nvim_buf_set_option(preview_buf, "buftype", "nofile")
 
+    -- Clear previous highlights
+    vim.api.nvim_buf_clear_namespace(preview_buf, -1, 0, -1)
+
+    -- Highlight the marked line
+    vim.api.nvim_buf_add_highlight(preview_buf, -1, "CursorLine", mark.row - 1, 0, -1)
+    
+    -- Add virtual text showing cursor position
+    local ns = vim.api.nvim_create_namespace("mark_cursor")
+    vim.api.nvim_buf_set_extmark(preview_buf, ns, mark.row - 1, mark.col, {
+      virt_text = { { "█", "Search" } },
+      virt_text_pos = "overlay",
+    })
+
     -- Center on marked line
     if vim.api.nvim_win_is_valid(preview_win) then
       pcall(vim.api.nvim_win_set_cursor, preview_win, { mark.row, mark.col })
@@ -330,6 +343,8 @@ function M.pick_marks()
   local opts = { buffer = buf, noremap = true, silent = true }
   vim.keymap.set("n", "j", function() move_cursor(1) end, opts)
   vim.keymap.set("n", "k", function() move_cursor(-1) end, opts)
+  vim.keymap.set("n", "<Down>", function() move_cursor(1) end, opts)
+  vim.keymap.set("n", "<Up>", function() move_cursor(-1) end, opts)
   vim.keymap.set("n", "<CR>", jump_to_mark, opts)
   vim.keymap.set("n", "dd", delete_mark, opts)
   vim.keymap.set("n", "q", function()
@@ -342,6 +357,14 @@ function M.pick_marks()
   end, opts)
   vim.keymap.set("n", "<C-j>", function() move_mark(1) end, opts)
   vim.keymap.set("n", "<C-k>", function() move_mark(-1) end, opts)
+
+  -- Auto-update preview on cursor move
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    buffer = buf,
+    callback = function()
+      update_preview()
+    end,
+  })
 
   -- Initial render
   render_marks()
