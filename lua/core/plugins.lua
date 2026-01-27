@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
     if vim.v.shell_error ~= 0 then
         vim.api.nvim_echo({
-a           { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
             { out,                            "WarningMsg" },
             { "\nPress any key to exit..." },
         }, true, {})
@@ -20,7 +20,7 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
     {
         "ThePrimeagen/harpoon",
-        branch = "harpoon2"
+        branch = "gin31259461:harpoon2"
     },
     {
         "mg979/vim-visual-multi"
@@ -272,16 +272,4 @@ require("lazy").setup({
             require('vscode').load()
         end,
     },
-    -- -- BARBAR
-    {
-        'romgrk/barbar.nvim',
-        dependencies = {
-            'lewis6991/gitsigns.nvim',
-            'nvim-tree/nvim-web-devicons',
-        },
-        init = function()
-            vim.g.barbar_auto_setup = true
-        end,
-        version = '^1.0.0'
-    }
 })

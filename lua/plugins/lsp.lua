@@ -6,7 +6,16 @@ vim.lsp.enable('neocmake')
 -- C/C++ LSP
 vim.lsp.config.clangd = {
     name = "clangd",
-    cmd = { 'clangd', '--background-index', '--clang-tidy', '--completion-style=detailed', '--fallback-style=llvm' },
+    cmd =
+    {
+        'clangd',
+        '--all-scopes-completion',
+        '--background-index',
+        '--clang-tidy',
+        '--completion-style=detailed',
+        '--fallback-style=llvm',
+        '--j=12'
+    },
     on_attach = function(client, bufnr)
         if client.server_capabilities.semantictokensprovider then
             vim.lsp.semantic_tokens.start(bufnr, client.id)

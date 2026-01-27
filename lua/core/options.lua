@@ -13,7 +13,9 @@ vim.cmd("let g:netrw_liststyle = 3")
 
 -- appearence
 vim.g.flog_enable_extended_chars = 1
-vim.opt.laststatus = 0
+vim.opt.laststatus = 2
+vim.opt.cmdheight = 0
+vim.opt.statusline = "%f %m%r%h%w%=%y [%l,%c] %p%%"
 vim.opt.colorcolumn = '120'
 vim.cmd("colorscheme vscode")
 vim.cmd [[highlight ColorColumn ctermbg=grey guibg=#1d1f21]]
