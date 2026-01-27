@@ -167,56 +167,40 @@ function M.pick_marks()
     return
   end
 
-  local items = {}
+  -- Build file:line:col entries for fzf files format  
+  local file_entries = {}
   for i, m in ipairs(project_marks) do
-    local short = vim.fn.fnamemodify(m.file, ":~:.")
-    items[#items + 1] = string.format("%02d  %-30s  %s:%d:%d", i, m.name, short, m.row, m.col + 1)
+    table.insert(file_entries, string.format("%s:%d:%d: %s", m.file, m.row, m.col + 1, m.name))
   end
 
-  fzf.fzf_exec(items, {
+  fzf.fzf_exec(file_entries, {
     prompt = "API marks> ",
-    winopts = {
-      preview = {
-        layout = "vertical",
-        vertical = "down:50%",
-      },
-    },
-    preview = function(entry_str)
-      if not entry_str or type(entry_str) ~= "string" then return end
-      local idx = tonumber(entry_str:match("^(%d+)"))
-      local m = idx and project_marks[idx]
-      if not m then return end
-      return {
-        path = m.file,
-        line = m.row,
-        col = m.col,
-      }
-    end,
+    previewer = "builtin",
     actions = {
       ["default"] = function(selected)
         if not selected or not selected[1] then return end
-        local idx = tonumber(selected[1]:match("^(%d+)"))
-        local m = idx and project_marks[idx]
-        if not m then return end
-        vim.cmd("edit " .. vim.fn.fnameescape(m.file))
-        vim.api.nvim_win_set_cursor(0, { m.row, m.col })
+        local entry = selected[1]
+        local file, line, col = entry:match("^(.+):(%d+):(%d+):")
+        if not file then return end
+        vim.cmd("edit " .. vim.fn.fnameescape(file))
+        vim.api.nvim_win_set_cursor(0, { tonumber(line), tonumber(col) - 1 })
       end,
       ["ctrl-d"] = function(selected)
         if not selected or not selected[1] then return end
-        local idx = tonumber(selected[1]:match("^(%d+)"))
-        if not idx then return end
-        local m = project_marks[idx]
+        local entry = selected[1]
+        local file, line = entry:match("^(.+):(%d+):")
+        if not file then return end
         -- Remove from global marks list
         load_marks()
         local new_marks = {}
         for _, mark in ipairs(marks) do
-          if not (mark.project == m.project and mark.file == m.file and mark.row == m.row and mark.name == m.name) then
+          if not (mark.file == file and mark.row == tonumber(line)) then
             table.insert(new_marks, mark)
           end
         end
         marks = new_marks
         save_marks()
-        vim.notify("Deleted mark: " .. m.name, vim.log.levels.INFO)
+        vim.notify("Deleted mark", vim.log.levels.INFO)
       end,
     },
   })
