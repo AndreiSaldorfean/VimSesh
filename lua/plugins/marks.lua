@@ -191,15 +191,15 @@ function M.pick_marks()
     return
   end
 
-  -- Create a floating window
+  -- Create a fullscreen window with borders
   local buf = vim.api.nvim_create_buf(false, true)
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.lines * 0.8)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+  local width = vim.o.columns - 4
+  local height = vim.o.lines - 4
+  local row = 1
+  local col = 1
 
-  -- Calculate split: marks list on left, preview on right
-  local list_width = math.floor(width * 0.4)
+  -- Calculate split: marks list 60%, preview 40%
+  local list_width = math.floor(width * 0.6)
   local preview_width = width - list_width - 3
 
   local win = vim.api.nvim_open_win(buf, true, {
@@ -210,7 +210,7 @@ function M.pick_marks()
     col = col,
     style = "minimal",
     border = "rounded",
-    title = " API Marks ",
+    title = " Marks ",
     title_pos = "center",
   })
 
@@ -232,12 +232,35 @@ function M.pick_marks()
   local function render_marks()
     local lines = {}
     for i, m in ipairs(project_marks) do
-      local short = vim.fn.fnamemodify(m.file, ":~:.")
-      lines[i] = string.format("%2d. %-30s %s:%d", i, m.name, short, m.row)
+      local filename = vim.fn.fnamemodify(m.file, ":t")  -- Just the filename
+      lines[i] = string.format("%2d. %-20s %s", i, filename .. ":" .. m.row .. ":" .. (m.col + 1), m.name)
     end
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
     vim.bo[buf].modifiable = false
     vim.bo[buf].buftype = "nofile"
+    
+    -- Add syntax highlighting
+    local ns = vim.api.nvim_create_namespace("marks_highlight")
+    vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
+    
+    for i, m in ipairs(project_marks) do
+      local line_idx = i - 1
+      local line = lines[i]
+      
+      -- Highlight the number (e.g., " 1.")
+      local num_end = line:find("%.")
+      if num_end then
+        vim.api.nvim_buf_add_highlight(buf, ns, "Number", line_idx, 0, num_end)
+      end
+      
+      -- Highlight the mark name/code
+      local name_start = num_end and num_end + 1 or 0
+      local filename_end = name_start + 21  -- 20 chars filename + 1 space
+      vim.api.nvim_buf_add_highlight(buf, ns, "Directory", line_idx, name_start, filename_end)
+      
+      -- Highlight code string
+      vim.api.nvim_buf_add_highlight(buf, ns, "String", line_idx, filename_end, -1)
+    end
   end
 
   -- Update preview
@@ -245,7 +268,12 @@ function M.pick_marks()
     local line = vim.api.nvim_win_get_cursor(win)[1]
     local mark = project_marks[line]
     if not mark then return end
-
+    -- Update preview window title with relative path
+    local rel_path = vim.fn.fnamemodify(mark.file, ":~:.")
+    vim.api.nvim_win_set_config(preview_win, {
+      title = " " .. rel_path .. ":" .. mark.row .. " ",
+      title_pos = "center",
+    })
     -- Load file content
     local ok, file_lines = pcall(vim.fn.readfile, mark.file)
     if not ok or not file_lines then 
@@ -253,8 +281,13 @@ function M.pick_marks()
       return 
     end
 
+    -- Add relative path header
+    local rel_path = vim.fn.fnamemodify(mark.file, ":~:.")
+    local header = { "━━━ " .. rel_path .. ":" .. mark.row .. " ━━━", "" }
+    local content = vim.list_extend(header, file_lines)
+
     vim.api.nvim_buf_set_option(preview_buf, "modifiable", true)
-    vim.api.nvim_buf_set_lines(preview_buf, 0, -1, false, file_lines)
+    vim.api.nvim_buf_set_lines(preview_buf, 0, -1, false, content)
     
     -- Set filetype for syntax highlighting
     local ft = vim.filetype.match({ filename = mark.file }) or ""
@@ -262,22 +295,28 @@ function M.pick_marks()
     vim.api.nvim_buf_set_option(preview_buf, "modifiable", false)
     vim.api.nvim_buf_set_option(preview_buf, "buftype", "nofile")
 
-    -- Clear previous highlights
-    vim.api.nvim_buf_clear_namespace(preview_buf, -1, 0, -1)
+    -- Highlight the header
+    local header_ns = vim.api.nvim_create_namespace("preview_header")
+    vim.api.nvim_buf_clear_namespace(preview_buf, header_ns, 0, -1)
+    vim.api.nvim_buf_add_highlight(preview_buf, header_ns, "Comment", 0, 0, -1)
 
-    -- Highlight the marked line
-    vim.api.nvim_buf_add_highlight(preview_buf, -1, "CursorLine", mark.row - 1, 0, -1)
+    -- Clear previous highlights
+    local mark_ns = vim.api.nvim_create_namespace("mark_cursor")
+    vim.api.nvim_buf_clear_namespace(preview_buf, mark_ns, 0, -1)
+
+    -- Highlight the marked line (offset by 2 for header)
+    local mark_line = mark.row + 1  -- +2 for header, -1 for 0-index
+    vim.api.nvim_buf_add_highlight(preview_buf, mark_ns, "CursorLine", mark_line, 0, -1)
     
     -- Add virtual text showing cursor position
-    local ns = vim.api.nvim_create_namespace("mark_cursor")
-    vim.api.nvim_buf_set_extmark(preview_buf, ns, mark.row - 1, mark.col, {
+    vim.api.nvim_buf_set_extmark(preview_buf, mark_ns, mark_line, mark.col, {
       virt_text = { { "█", "Search" } },
       virt_text_pos = "overlay",
     })
 
     -- Center on marked line
     if vim.api.nvim_win_is_valid(preview_win) then
-      pcall(vim.api.nvim_win_set_cursor, preview_win, { mark.row, mark.col })
+      pcall(vim.api.nvim_win_set_cursor, preview_win, { mark.row + 2, mark.col })
       vim.api.nvim_win_call(preview_win, function()
         vim.cmd("normal! zz")
       end)
