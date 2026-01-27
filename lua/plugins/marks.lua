@@ -156,54 +156,197 @@ end
 
 function M.pick_marks()
   local project_marks = get_project_marks()
-  local ok, fzf = pcall(require, "fzf-lua")
-  if not ok then
-    vim.notify("fzf-lua not installed", vim.log.levels.ERROR)
-    return
-  end
 
   if #project_marks == 0 then
     vim.notify("No marks in current project", vim.log.levels.INFO)
     return
   end
 
-  -- Build file:line:col entries for fzf files format  
-  local file_entries = {}
-  for i, m in ipairs(project_marks) do
-    table.insert(file_entries, string.format("%s:%d:%d: %s", m.file, m.row, m.col + 1, m.name))
+  -- Create a floating window
+  local buf = vim.api.nvim_create_buf(false, true)
+  local width = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.8)
+  local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+
+  -- Calculate split: marks list on left, preview on right
+  local list_width = math.floor(width * 0.4)
+  local preview_width = width - list_width - 3
+
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = list_width,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    border = "rounded",
+    title = " API Marks ",
+    title_pos = "center",
+  })
+
+  -- Create preview window
+  local preview_buf = vim.api.nvim_create_buf(false, true)
+  local preview_win = vim.api.nvim_open_win(preview_buf, false, {
+    relative = "editor",
+    width = preview_width,
+    height = height,
+    row = row,
+    col = col + list_width + 3,
+    style = "minimal",
+    border = "rounded",
+    title = " Preview ",
+    title_pos = "center",
+  })
+
+  -- Render marks list
+  local function render_marks()
+    local lines = {}
+    for i, m in ipairs(project_marks) do
+      local short = vim.fn.fnamemodify(m.file, ":~:.")
+      lines[i] = string.format("%2d. %-30s %s:%d", i, m.name, short, m.row)
+    end
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+    vim.bo[buf].modifiable = false
+    vim.bo[buf].buftype = "nofile"
   end
 
-  fzf.fzf_exec(file_entries, {
-    prompt = "API marks> ",
-    previewer = "builtin",
-    actions = {
-      ["default"] = function(selected)
-        if not selected or not selected[1] then return end
-        local entry = selected[1]
-        local file, line, col = entry:match("^(.+):(%d+):(%d+):")
-        if not file then return end
-        vim.cmd("edit " .. vim.fn.fnameescape(file))
-        vim.api.nvim_win_set_cursor(0, { tonumber(line), tonumber(col) - 1 })
-      end,
-      ["ctrl-d"] = function(selected)
-        if not selected or not selected[1] then return end
-        local entry = selected[1]
-        local file, line = entry:match("^(.+):(%d+):")
-        if not file then return end
-        -- Remove from global marks list
-        load_marks()
-        local new_marks = {}
-        for _, mark in ipairs(marks) do
-          if not (mark.file == file and mark.row == tonumber(line)) then
-            table.insert(new_marks, mark)
-          end
-        end
-        marks = new_marks
-        save_marks()
-        vim.notify("Deleted mark", vim.log.levels.INFO)
-      end,
-    },
-  })
+  -- Update preview
+  local function update_preview()
+    local line = vim.api.nvim_win_get_cursor(win)[1]
+    local mark = project_marks[line]
+    if not mark then return end
+
+    -- Load file content
+    local ok, file_lines = pcall(vim.fn.readfile, mark.file)
+    if not ok or not file_lines then 
+      vim.api.nvim_buf_set_lines(preview_buf, 0, -1, false, { "Error loading file: " .. mark.file })
+      return 
+    end
+
+    vim.api.nvim_buf_set_option(preview_buf, "modifiable", true)
+    vim.api.nvim_buf_set_lines(preview_buf, 0, -1, false, file_lines)
+    
+    -- Set filetype for syntax highlighting
+    local ft = vim.filetype.match({ filename = mark.file }) or ""
+    vim.api.nvim_buf_set_option(preview_buf, "filetype", ft)
+    vim.api.nvim_buf_set_option(preview_buf, "modifiable", false)
+    vim.api.nvim_buf_set_option(preview_buf, "buftype", "nofile")
+
+    -- Center on marked line
+    if vim.api.nvim_win_is_valid(preview_win) then
+      pcall(vim.api.nvim_win_set_cursor, preview_win, { mark.row, mark.col })
+      vim.api.nvim_win_call(preview_win, function()
+        vim.cmd("normal! zz")
+      end)
+    end
+  end
+
+  -- Navigate and update preview
+  local function move_cursor(delta)
+    local new_line = vim.api.nvim_win_get_cursor(win)[1] + delta
+    new_line = math.max(1, math.min(new_line, #project_marks))
+    vim.api.nvim_win_set_cursor(win, { new_line, 0 })
+    update_preview()
+  end
+
+  -- Jump to mark
+  local function jump_to_mark()
+    local line = vim.api.nvim_win_get_cursor(win)[1]
+    local mark = project_marks[line]
+    if not mark then return end
+
+    vim.api.nvim_win_close(win, true)
+    vim.api.nvim_win_close(preview_win, true)
+    vim.cmd("edit " .. vim.fn.fnameescape(mark.file))
+    vim.api.nvim_win_set_cursor(0, { mark.row, mark.col })
+  end
+
+  -- Delete mark
+  local function delete_mark()
+    local line = vim.api.nvim_win_get_cursor(win)[1]
+    local mark = project_marks[line]
+    if not mark then return end
+
+    -- Remove from global marks
+    load_marks()
+    local new_marks = {}
+    for _, m in ipairs(marks) do
+      if not (m.project == mark.project and m.file == mark.file and m.row == mark.row and m.name == mark.name) then
+        table.insert(new_marks, m)
+      end
+    end
+    marks = new_marks
+    save_marks()
+
+    -- Remove from project_marks and re-render
+    table.remove(project_marks, line)
+    if #project_marks == 0 then
+      vim.api.nvim_win_close(win, true)
+      vim.api.nvim_win_close(preview_win, true)
+      vim.notify("No more marks", vim.log.levels.INFO)
+      return
+    end
+
+    vim.bo[buf].modifiable = true
+    render_marks()
+    local new_pos = math.min(line, #project_marks)
+    vim.api.nvim_win_set_cursor(win, { new_pos, 0 })
+    update_preview()
+  end
+
+  -- Move mark up/down
+  local function move_mark(direction)
+    local line = vim.api.nvim_win_get_cursor(win)[1]
+    local new_line = line + direction
+    if new_line < 1 or new_line > #project_marks then return end
+
+    -- Swap in project_marks
+    project_marks[line], project_marks[new_line] = project_marks[new_line], project_marks[line]
+
+    -- Update global marks order
+    load_marks()
+    local project = get_project_root()
+    local project_indices = {}
+    for i, m in ipairs(marks) do
+      if m.project == project then
+        table.insert(project_indices, i)
+      end
+    end
+    
+    -- Reorder in global marks
+    for i, idx in ipairs(project_indices) do
+      marks[idx] = project_marks[i]
+    end
+    save_marks()
+
+    vim.bo[buf].modifiable = true
+    render_marks()
+    vim.api.nvim_win_set_cursor(win, { new_line, 0 })
+    update_preview()
+  end
+
+  -- Set keymaps
+  local opts = { buffer = buf, noremap = true, silent = true }
+  vim.keymap.set("n", "j", function() move_cursor(1) end, opts)
+  vim.keymap.set("n", "k", function() move_cursor(-1) end, opts)
+  vim.keymap.set("n", "<CR>", jump_to_mark, opts)
+  vim.keymap.set("n", "dd", delete_mark, opts)
+  vim.keymap.set("n", "q", function()
+    vim.api.nvim_win_close(win, true)
+    vim.api.nvim_win_close(preview_win, true)
+  end, opts)
+  vim.keymap.set("n", "<Esc>", function()
+    vim.api.nvim_win_close(win, true)
+    vim.api.nvim_win_close(preview_win, true)
+  end, opts)
+  vim.keymap.set("n", "<C-j>", function() move_mark(1) end, opts)
+  vim.keymap.set("n", "<C-k>", function() move_mark(-1) end, opts)
+
+  -- Initial render
+  render_marks()
+  vim.api.nvim_win_set_cursor(win, { 1, 0 })
+  update_preview()
 end
 
 vim.keymap.set("n", "<leader>am", M.add_mark, { desc = "Mark function (API)" })
