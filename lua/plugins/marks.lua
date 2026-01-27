@@ -73,33 +73,62 @@ local function get_cursor_mark()
   return { file = file, row = row, col = col }
 end
 
--- Try: treesitter -> nearest function
+-- Try: treesitter -> check if on function name specifically
 local function ts_get_function_name_at_cursor()
   local ok, ts = pcall(require, "nvim-treesitter.ts_utils")
   if not ok then return nil end
+  
   local node = ts.get_node_at_cursor()
-  while node do
-    local t = node:type()
-    -- common C nodes: function_definition, declaration, function_declarator
-    if t == "function_definition" or t == "declaration" then
-      -- heuristic: grab identifier child
-      local text = vim.treesitter.get_node_text(node, 0)
-      if text and text:find("%(") then
-        -- best-effort name extraction
-        local name = text:match("([%w_]+)%s*%(")
-        if name then return name end
+  if not node then return nil end
+  
+  -- Check if we're on an identifier that's a function name
+  local current_node = node
+  while current_node do
+    local node_type = current_node:type()
+    
+    -- For C: check if we're on a function_declarator or function name identifier
+    if node_type == "function_declarator" or node_type == "identifier" then
+      local parent = current_node:parent()
+      if parent then
+        local parent_type = parent:type()
+        -- Check if parent is a function definition/declaration
+        if parent_type == "function_definition" or parent_type == "declaration" then
+          -- Try to extract the function name
+          local text = vim.treesitter.get_node_text(current_node, 0)
+          if text then
+            -- If it contains parentheses, extract name before them
+            local name = text:match("([%w_]+)%s*%(")
+            if name then return name end
+            -- If it's just an identifier, return it
+            if text:match("^[%w_]+$") then return text end
+          end
+        end
       end
     end
-    node = node:parent()
+    
+    -- Move up the tree
+    current_node = current_node:parent()
   end
+  
   return nil
 end
 
--- Fallback: use current word as name
+-- Fallback: use current line as name
 local function fallback_name()
-  local w = vim.fn.expand("<cword>")
-  if w and w ~= "" then return w end
-  return "(unnamed)"
+  local line = vim.api.nvim_get_current_line()
+  -- Trim leading/trailing whitespace
+  line = line:match("^%s*(.-)%s*$")
+  
+  if line == "" then
+    return "(empty line)"
+  end
+  
+  -- Truncate if too long (max 50 chars)
+  if #line > 50 then
+    return line:sub(1, 47) .. "..."
+  end
+  
+  return line
 end
 
 function M.add_mark()
