@@ -3,6 +3,8 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
+vim.g.vimtex_view_method = "zathura"
+
 -- Folds
 vim.o.foldcolumn = '1' -- '0' is not bad
 vim.opt.foldlevel = 99

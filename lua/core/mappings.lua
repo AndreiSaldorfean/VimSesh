@@ -11,7 +11,11 @@ vim.keymap.set({ 'n', 'v' }, '<leader>e', '<ESC>:Neotree toggle<CR>',           
 
 ----Telescope
 vim.keymap.set({ 'n', 'v' }, '<leader>f', ':FzfLua live_grep<CR>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>g', ':FzfLua git_status<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-p>', ':FzfLua files<cr>', { noremap = true, silent = true })
+
+---- GrugFar
+vim.keymap.set({ 'n', 'v' }, '<leader>s', ':GrugFar<CR>', { noremap = true, silent = true })
 
 ----Git signs
 vim.keymap.set({ 'n' }, '<leader>j', '<ESC>:Gitsigns next_hunk<CR>',     { noremap = true, silent = true })
@@ -86,11 +90,11 @@ end, { noremap = true, silent = true })
 vim.keymap.set('n', 'gf', function()
   local line = vim.fn.getline('.')
   local col = vim.fn.col('.')
-  
+
   -- Extract file path with line and column numbers
   local pattern = '([%w%.%-%_/]+%.%w+):(%d+):?(%d*)'
   local file, line_num, col_num = line:match(pattern)
-  
+
   if file then
     -- Check if file exists
     if vim.fn.filereadable(file) == 1 then
@@ -98,7 +102,7 @@ vim.keymap.set('n', 'gf', function()
       if vim.bo.buftype == 'terminal' then
         float_term:close()
       end
-      
+
       vim.cmd('edit ' .. file)
       vim.fn.cursor(tonumber(line_num), col_num ~= '' and tonumber(col_num) or 1)
       vim.cmd('normal! zz')

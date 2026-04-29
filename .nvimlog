@@ -1,0 +1,2 @@
+WRN 2026-06-28T23:09:03.473 ?.58542    server_start:199: Failed to start server: no such file or directory: /run/user/1000/
+WRN 2026-06-28T23:09:03.584 ?.58542    server_start:199: Failed to start server: no such file or directory: /run/user/1000/

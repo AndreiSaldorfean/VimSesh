@@ -19,15 +19,88 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
     {
-        "ThePrimeagen/harpoon",
-        branch = "gin31259461:harpoon2"
+        "mistricky/codesnap.nvim",
+        version = "v2.0.5",
+        -- Lazy-load so blink.cmp initializes first; also avoids startup conflicts
+        -- (mistricky/codesnap.nvim#162). v2.0.5 fixes Wayland clipboard freeze (#166).
+        cmd = {
+            "CodeSnap",
+            "CodeSnapSave",
+            "CodeSnapASCII",
+            "CodeSnapHighlight",
+            "CodeSnapHighlightSave",
+        },
+        init = function(plugin)
+            require("core.codesnap-patch").register_preload()
+            require("core.codesnap-patch").refresh_lib(plugin.dir)
+        end,
+        config = function()
+            require("codesnap").setup()
+            require("core.codesnap-wayland").setup()
+        end,
+    },
+    {
+        'vieitesss/minifugit.nvim',
+
+        config = function()
+            require('minifugit').setup({
+                preview = {
+                    -- Start diff previews with wrapping disabled.
+                    wrap = false,
+
+                    -- Show old/new line numbers in diff previews.
+                    show_line_numbers = true,
+
+                    -- Show git diff metadata rows such as `diff --git`, `index`, `---`,
+                    -- and `+++`.
+                    show_metadata = false,
+
+                    -- Diff preview layout: 'stacked', 'split', or 'auto'.
+                    diff_layout = 'split',
+
+                    -- Editor width where 'auto' switches from stacked to split.
+                    diff_auto_threshold = 120,
+                },
+                status = {
+                    -- Fraction of the editor width used by the status window.
+                    width = 0.4,
+
+                    -- Minimum status window width in columns.
+                    min_width = 20,
+                },
+            })
+        end,
+        cmd = { 'MinifugitStatus' },
+    },
+    {
+      "lervag/vimtex",
+      lazy = false,
+      init = function()
+        vim.g.vimtex_view_method = "zathura"
+      end
+    },
+    {
+        'MagicDuck/grug-far.nvim',
+        -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
+        -- additional lazy config to defer loading is not really needed...
+        config = function()
+            -- optional setup call to override plugin options
+            -- alternatively you can set options with vim.g.grug_far = { ... }
+            require('grug-far').setup({
+                -- options, see Configuration section below
+                -- there are no required options atm
+            });
+        end
+    },
+    {
+        'sakhnik/nvim-gdb'
     },
     {
         "mg979/vim-visual-multi"
     },
     {
         "godlygeek/tabular",
-        cmd = {"Tabularize"}
+        cmd = { "Tabularize" }
     },
     -- Switch between source and header c/c++
     {
@@ -132,25 +205,56 @@ require("lazy").setup({
     },
     -- Tree-sitter for syntax highlighting and parsing
     {
-        'nvim-treesitter/nvim-treesitter',
-        build = ':TSUpdate', -- Ensure treesitter is installed and updated
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
         config = function()
-            require('nvim-treesitter.configs').setup({
-                ensure_installed = { "lua", "python", "javascript", "typescript", "html", "css", "json", "yaml", "markdown", "bash", "c", "cpp" },
-                sync_install = false,
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = {
+                    "bash",
+                    "comment",
+                    "css",
+                    "diff",
+                    "fish",
+                    "git_config",
+                    "git_rebase",
+                    "gitcommit",
+                    "gitignore",
+                    "html",
+                    "javascript",
+                    "json",
+                    "latex",
+                    "lua",
+                    "luadoc",
+                    "make",
+                    "markdown",
+                    "markdown_inline",
+                    "norg",
+                    "python",
+                    "query",
+                    "regex",
+                    "scss",
+                    "svelte",
+                    "toml",
+                    "tsx",
+                    "typescript",
+                    "typst",
+                    "vim",
+                    "vimdoc",
+                    "vue",
+                    "xml",
+                },
+
                 auto_install = true,
+
                 highlight = {
                     enable = true,
-                    additional_vim_regex_highlighting = false,
                 },
-                fold = {
-                    enable = true,
-                },
+
                 indent = {
                     enable = true,
                 },
             })
-        end
+        end,
     },
     -- AUTO PAIRS
     {
@@ -248,9 +352,9 @@ require("lazy").setup({
                 filesystem = {
                     follow_current_file = {
                         enabled = true
-                    },                            -- Automatically select the file in the tree
+                    },                                      -- Automatically select the file in the tree
                     hijack_netrw_behavior = "open_default", -- This ensures it hijacks netrw
-                    use_libuv_file_watcher = true, -- This helps with automatically updating the tree
+                    use_libuv_file_watcher = true,          -- This helps with automatically updating the tree
                     filtered_items = {
                         hide_dotfiles = false,
                         hide_gitignored = false,
@@ -265,7 +369,7 @@ require("lazy").setup({
     },
     -- COLORSCHEME
     {
-         'Mofiqul/vscode.nvim',
+        'Mofiqul/vscode.nvim',
         lazy = false,
         priority = 1000,
         config = function()
