@@ -19,6 +19,23 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 require("lazy").setup({
     {
+      "slocook/review.nvim",
+      dependencies = {
+        "esmuellert/codediff.nvim",
+      },
+      config = function()
+        require("review").setup({
+          export = {
+            mode = "single", -- "single" | "per_comment"
+          },
+          beads = {
+            enabled = false,
+            branch_pattern = "epic/([^/]+)",
+          },
+        })
+      end,
+    },
+    {
         "mistricky/codesnap.nvim",
         version = "v2.0.5",
         -- Lazy-load so blink.cmp initializes first; also avoids startup conflicts
@@ -35,7 +52,19 @@ require("lazy").setup({
             require("core.codesnap-patch").refresh_lib(plugin.dir)
         end,
         config = function()
-            require("codesnap").setup()
+            require("codesnap").setup({
+                show_line_number = false,
+                snapshot_config = {
+                    theme = "candy",
+                    background = "#00000000",
+                    -- Don't use "none" here: codesnap's merge_config re-adds it as a
+                    -- string and breaks Rust deserialization.
+                    watermark = {
+                        content = "",
+                        color = "#00000000",
+                    },
+                },
+            })
             require("core.codesnap-wayland").setup()
         end,
     },
